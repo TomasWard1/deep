@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:hackitba/classes/BookClass.dart';
 import 'package:hackitba/classes/ContributionClass.dart';
 import 'package:hackitba/helpers/DatabaseManager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../classes/SpaceClass.dart';
 import '../classes/UserClass.dart';
@@ -211,5 +212,17 @@ class SpacesController extends GetxController {
 
     spaces.value = [misterio, drama, fantasia, thriller, cuentos, historia];
     spaces.refresh();
+  }
+
+  setOnboarding(bool set) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('onboard', set);
+  }
+
+  Future<bool> didOnboard() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    final bool? didOnboard = prefs.getBool('onboard');
+
+    return didOnboard ?? false;
   }
 }
