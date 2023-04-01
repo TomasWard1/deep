@@ -1,0 +1,1 @@
+# backend with hardhat - smart contracts
