@@ -17,10 +17,10 @@ class DeepWidgets {
         style: GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: color)),
       );
 
-  Widget bodyText(String body, Color color) => Text(
+  Widget bodyText(String body, Color color, int? maxLines) => Text(
         body,
-        maxLines: 2,
-        overflow: TextOverflow.ellipsis,
+        maxLines: maxLines,
+        overflow: maxLines != null ? TextOverflow.ellipsis : null,
         style: GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: color)),
       );
 
@@ -58,7 +58,7 @@ class DeepWidgets {
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.only(left: 5.0, top: 5, bottom: 10),
-                child: bodyText(s.description, textColor),
+                child: bodyText(s.description, textColor, 2),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 10, right: 10),
@@ -76,12 +76,12 @@ class DeepWidgets {
     return ElevatedButton(
         onPressed: () async {
           //join space
-          await SnackBarManager().success('Joined ${s.name}');
+          await DialogManager().success('Joined ${s.name}');
           Get.to(() => SpaceDetail(id: s.id));
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: accentColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-        child: bodyText('Join', textColor));
+        child: bodyText('Join', textColor, 1));
   }
 
   Widget participantOverlapList(List<String> users, Color color) {
@@ -155,9 +155,9 @@ class DeepWidgets {
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 10.0),
-            child: bodyText('User', textColor),
+            child: bodyText('User', textColor, 1),
           )),
-          bodyText("$totalAmount ETH", textColor)
+          bodyText("$totalAmount ETH", textColor, 1)
         ],
       ),
     );
@@ -172,7 +172,7 @@ class DeepWidgets {
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 10.0),
-            child: bodyText('Author', textColor),
+            child: bodyText('Author', textColor, 1),
           )),
           Padding(
               padding: const EdgeInsets.only(right: 5.0),
@@ -181,7 +181,7 @@ class DeepWidgets {
                 color: textColor,
                 size: 20,
               )),
-          bodyText('100', textColor)
+          bodyText('100', textColor, 1)
         ],
       ),
     );
@@ -216,32 +216,121 @@ class DeepWidgets {
 
   Widget bookList(Space s) {
     return ListView.builder(
-      primary: false,
+        primary: false,
         physics: const NeverScrollableScrollPhysics(),
         shrinkWrap: true,
         itemCount: s.books.length,
         itemBuilder: (c, i) {
           Book b = s.books[i];
-          return Container(
-            margin: const EdgeInsets.only(bottom:10),
-              child: ListTile(
-            contentPadding: const EdgeInsets.only(left: 5, right: 5),
-            minLeadingWidth: 10,
-            leading: Icon(Icons.bookmark_border, color: textColor),
-            title:Text(
-              b.title,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: textColor)),
-            ),
-            subtitle:Text(
-              b.description,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: textColor)),
-            ),
-            trailing: Icon(Icons.arrow_right, color: textColor),
-          ));
+          return bookListTile(b);
         });
+  }
+
+  Widget bookListTile(Book b) {
+    return Container(
+        margin: const EdgeInsets.only(bottom: 10),
+        child: ListTile(
+          onTap: () {
+            DialogManager().bookDetail(b);
+          },
+          contentPadding: const EdgeInsets.only(left: 5, right: 5),
+          minLeadingWidth: 10,
+          leading: Icon(Icons.bookmark_border, color: textColor),
+          title: Text(
+            b.title,
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
+            style:
+                GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: textColor)),
+          ),
+          subtitle: Text(
+            b.description,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style:
+                GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: textColor)),
+          ),
+          trailing: Icon(Icons.arrow_right, color: textColor),
+        ));
+  }
+
+  Widget bookDetail(Book b) {
+    return Container(
+      decoration: BoxDecoration(
+          color: bgColor,
+          borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+      padding: const EdgeInsets.all(15.0),
+      child: Column(
+        children: [
+          Divider(
+            height: 5,
+            indent: Get.size.width * 0.4,
+            endIndent: Get.size.width * 0.4,
+            color: accentColor,
+            thickness: 4,
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: Row(
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: Column(
+                    children: [
+                      SizedBox(width: double.infinity, child: headingText(b.title, textColor)),
+                      bodyText(b.description, textColor, null),
+                    ],
+                  ),
+                )),
+                userCircle(b.authorId.toUpperCase(), textColor, false)
+              ],
+            ),
+          ),
+          const Spacer(),
+          Icon(
+            Icons.picture_as_pdf,
+            color: textColor,
+            size: 40,
+          ),
+          const Spacer(),
+          bookActionButtons(b)
+        ],
+      ),
+    );
+  }
+
+  Widget actionButton(String title, IconData icon, Function onPressed) {
+    return ElevatedButton(
+        style: ElevatedButton.styleFrom(
+            backgroundColor: accentColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+        onPressed: () => onPressed(),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(right: 5),
+              child: Icon(
+                icon,
+                color: textColor,
+              ),
+            ),
+            bodyText(title, textColor, 1),
+          ],
+        ));
+  }
+
+  Widget bookActionButtons(Book b) {
+    return Row(
+      children: [
+        Expanded(
+            child: Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: actionButton('Fund', Icons.credit_card, () {}),
+        )),
+        actionButton('Like', Icons.favorite_border, () {}),
+      ],
+    );
   }
 }

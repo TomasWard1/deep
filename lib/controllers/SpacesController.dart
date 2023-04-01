@@ -45,7 +45,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'El Silencio de la Ciudad',
         description: 'Una ciudad queda en silencio después de una serie de extrañas desapariciones',
-        authorId: '',
+        authorId: 'r',
         space: misterio,
         likes: 100,
         coverImageUrl: ''));
@@ -54,7 +54,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'La Habitación Vacía',
         description: 'Una mujer alquila una habitación en una casa encantada y comienza a sospechar que no está sola',
-        authorId: '',
+        authorId: 'a',
         space: misterio,
         likes: 100,
         coverImageUrl: ''));
@@ -64,7 +64,7 @@ class SpacesController extends GetxController {
         title: 'La Puerta Abierta',
         description:
             'Una mujer regresa a su hogar después de estar ausente durante años y descubre que la puerta estaba abierta para ella',
-        authorId: '',
+        authorId: 'b',
         space: misterio,
         likes: 100,
         coverImageUrl: ''));
@@ -74,7 +74,7 @@ class SpacesController extends GetxController {
         title: 'La Última Noche',
         description:
             'Una mujer desaparece después de una fiesta, y su esposo debe descubrir la verdad antes de que sea demasiado tarde',
-        authorId: '',
+        authorId: 'c',
         space: misterio,
         likes: 100,
         coverImageUrl: ''));
@@ -84,7 +84,7 @@ class SpacesController extends GetxController {
         title: 'El Pasado Oculto',
         description:
             'Un hombre descubre secretos oscuros sobre su pasado mientras investiga la misteriosa muerte de su padre',
-        authorId: '',
+        authorId: 'd',
         space: misterio,
         likes: 100,
         coverImageUrl: ''));
@@ -94,7 +94,7 @@ class SpacesController extends GetxController {
         title: 'La Sombra Negra',
         description:
             ' Un detective debe perseguir a un asesino en serie conocido como "La Sombra Negra" antes de que vuelva a atacar',
-        authorId: '',
+        authorId: 'e',
         space: misterio,
         likes: 100,
         coverImageUrl: ''));
@@ -104,7 +104,7 @@ class SpacesController extends GetxController {
         title: 'El Secreto Mortal',
         description:
             'Un grupo de amigos descubren un oscuro secreto mientras investigan la extraña muerte de uno de ellos',
-        authorId: '',
+        authorId: 'f',
         space: misterio,
         likes: 100,
         coverImageUrl: ''));
@@ -113,7 +113,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'El Misterio del Lago',
         description: 'Un cuerpo es encontrado en un lago y una detective debe descubrir quién lo mató y por qué',
-        authorId: '',
+        authorId: 'g',
         space: misterio,
         likes: 100,
         coverImageUrl: ''));
@@ -122,7 +122,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'El Círculo Oscuro',
         description: 'Una joven se adentra en un círculo secreto de magia negra y comienza a temer por su vida',
-        authorId: '',
+        authorId: 'h',
         space: misterio,
         likes: 100,
         coverImageUrl: ''));
@@ -132,7 +132,7 @@ class SpacesController extends GetxController {
         title: 'El Cuarto Cerrado',
         description:
             'Un asesinato ocurre en una habitación cerrada por dentro, y un detective debe descubrir cómo el asesino lo hizo.',
-        authorId: '',
+        authorId: 'i',
         space: misterio,
         likes: 100,
         coverImageUrl: ''));
@@ -142,7 +142,7 @@ class SpacesController extends GetxController {
         color: Colors.red.shade300,
         description: 'Entrar solo si queres llorar.',
         id: '2',
-        imageUrl: '',
+        imageUrl: 'j',
         participantIds: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
         contributors: {},
         books: []);
@@ -152,7 +152,7 @@ class SpacesController extends GetxController {
         color: Colors.green.shade300,
         description: 'Un mundo sin fronteras. Las obras aca no tienen limite.',
         id: '3',
-        imageUrl: '',
+        imageUrl: 'k',
         participantIds: ['e', 'f', 'g', 'h', 'i'],
         contributors: {},
         books: []);
@@ -162,7 +162,7 @@ class SpacesController extends GetxController {
         color: Colors.teal.shade300,
         description: 'Como dijo Michael Jackson: \'With such confusions don\'t it make you wanna scream?\'',
         id: '4',
-        imageUrl: '',
+        imageUrl: 'l',
         participantIds: ['a', 'd', 'e'],
         contributors: {},
         books: []);
@@ -172,7 +172,7 @@ class SpacesController extends GetxController {
         color: Colors.lime.shade300,
         description: 'Cuentos cortos de menos de 1500 palabras.',
         id: '5',
-        imageUrl: '',
+        imageUrl: 'm',
         participantIds: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'],
         contributors: {},
         books: []);
@@ -182,7 +182,7 @@ class SpacesController extends GetxController {
         color: Colors.orange.shade300,
         description: 'Ensayos, biografias, y investigaciones actuales sobre la historia de la humanidad.',
         id: '6',
-        imageUrl: '',
+        imageUrl: 'n',
         participantIds: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
         contributors: {},
         books: []);

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hackitba/helpers/DeepWidgets.dart';
 
-class SnackBarManager {
+import '../classes/BookClass.dart';
+
+class DialogManager {
   Future success(String title) async {
     await Get.closeCurrentSnackbar();
     Get.showSnackbar(GetSnackBar(
@@ -11,5 +14,9 @@ class SnackBarManager {
       backgroundColor: Colors.green,
     ));
 
+  }
+
+  bookDetail(Book b) {
+    Get.bottomSheet(DeepWidgets().bookDetail(b));
   }
 }
