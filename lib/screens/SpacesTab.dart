@@ -11,29 +11,30 @@ class SpacesTab extends GetView<SpacesController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: DeepWidgets().bgColor,
         body: SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Column(
-          children: [
-            SizedBox(
-              width: double.infinity,
-              child: DeepWidgets().titleText('Spaces',Colors.black),
+          child: Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: Column(
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: DeepWidgets().titleText('Spaces', DeepWidgets().textColor),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                      padding: const EdgeInsets.only(top: 10, left: 5, right: 5, bottom: 20),
+                      shrinkWrap: true,
+                      physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
+                      itemCount: controller.spaces.length,
+                      itemBuilder: (c, i) {
+                        Space s = controller.spaces[i];
+                        return DeepWidgets().spaceListTile(s);
+                      }),
+                )
+              ],
             ),
-            Expanded(
-              child: ListView.builder(
-                padding: const EdgeInsets.only(top:10),
-                  shrinkWrap: true,
-                  physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
-                  itemCount: controller.spaces.length,
-                  itemBuilder: (c, i) {
-                    Space s = controller.spaces[i];
-                    return DeepWidgets().spaceListTile(s);
-                  }),
-            )
-          ],
-        ),
-      ),
-    ));
+          ),
+        ));
   }
 }

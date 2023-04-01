@@ -4,6 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import '../classes/SpaceClass.dart';
 
 class DeepWidgets {
+  Color bgColor = const Color(0xFFF2E5D0);
+  Color textColor = const Color(0xFF2C1810);
+  Color accentColor = const Color(0xFFdaaa63);
+
   Widget titleText(String title, Color color) => Text(
         title,
         style: GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: color)),
@@ -27,30 +31,32 @@ class DeepWidgets {
           margin: const EdgeInsets.only(bottom: 15),
           padding: const EdgeInsets.all(10),
           decoration: BoxDecoration(
-              color: s.color,
+              color: bgColor,
+              // color: s.color,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: const [BoxShadow(color: Colors.black, blurRadius: 3, spreadRadius: 0)]),
+              boxShadow: [BoxShadow(color: textColor, blurRadius: 3, spreadRadius: 1)]),
           child: Column(
             children: [
-              Row(//
+              Row(
+                //
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     backgroundColor: Colors.black12,
-                    child: Icon(Icons.workspaces_outlined, color: Colors.black),
+                    child: Icon(Icons.workspaces_outlined, color: textColor),
                   ),
                   Expanded(
                       child: Padding(
                     padding: const EdgeInsets.only(left: 10.0),
-                    child: headingText(s.name, Colors.black),
+                    child: headingText(s.name, textColor),
                   ))
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 5.0, top: 5, bottom: 10),
-                child: bodyText(s.description, Colors.black),
+                child: bodyText(s.description, textColor),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 15,right:10),
+                padding: const EdgeInsets.only(left: 15, right: 10),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [Expanded(child: participantOverlapList(s.participantIds, s.color)), joinButton()],
@@ -67,12 +73,12 @@ class DeepWidgets {
           //join space
         },
         style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.white, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-        child: bodyText('Join', Colors.black));
+            backgroundColor: accentColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+        child: bodyText('Join', textColor));
   }
 
   Widget participantOverlapList(List<String> users, Color color) {
-    return Container(
+    return SizedBox(
       height: 50,
       child: ListView.builder(
           shrinkWrap: false,
@@ -94,13 +100,13 @@ class DeepWidgets {
     return Align(
       widthFactor: .6,
       child: Container(
-        decoration: BoxDecoration(border: Border.all(color: Colors.black, width: 2), shape: BoxShape.circle),
+        decoration: BoxDecoration(border: Border.all(color: accentColor, width: 2), shape: BoxShape.circle),
         child: CircleAvatar(
-            backgroundColor: color,
+            backgroundColor: bgColor,
             child: Text(
               text,
               style: GoogleFonts.nunito(
-                  textStyle: const TextStyle(fontSize: 15, color: Colors.black, fontWeight: FontWeight.normal)),
+                  textStyle: TextStyle(fontSize: 15, color: textColor, fontWeight: FontWeight.normal)),
             )),
       ),
     );
