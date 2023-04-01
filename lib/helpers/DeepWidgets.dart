@@ -391,10 +391,11 @@ class DeepWidgets {
         ),
       );
 
-  Widget cuadradoRol(String imageName, String title,UserType type) {
+  Widget cuadradoRol(String imageName, String title, UserType type) {
     return GestureDetector(
       onTap: () {
-        Functions().saveProfileInfo(sc.fullNameController.text, sc.pseudonymController.text, sc.profileImage.value,type);
+        Functions()
+            .saveProfileInfo(sc.fullNameController.text, sc.pseudonymController.text, sc.profileImage.value, type);
       },
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -412,6 +413,54 @@ class DeepWidgets {
             child: headingText(title, textColor),
           )
         ],
+      ),
+    );
+  }
+
+  Widget profileStats() {
+    return Row(
+      children: [
+        profileStatTile(Icons.workspaces_outline, '${sc.currentUser.spaceCount} Spaces'),
+        const Spacer(),
+        profileStatTile(
+            (sc.currentUser.isAuthor) ? Icons.bookmark_border_outlined : Icons.monetization_on,
+            (sc.currentUser.isAuthor)
+                ? '${sc.currentUser.bookCount} Libros'
+                : '${sc.currentUser.totalContributions} ETH'),
+      ],
+    );
+  }
+
+  Widget preliminares() {
+    return (sc.currentUser.bookCount == 0)
+        ? Column(
+          children: [
+            const Spacer(),
+            bodyText('Todavia no tiene libros!', textColor, 1),
+            const Spacer(),
+          ],
+        )
+        : ListView.builder(
+            primary: false,
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: sc.currentUser.bookCount,
+            itemBuilder: (c, i) {
+              Book b = sc.currentUser.books![i];
+              return bookListTile(b);
+            });
+  }
+
+  Widget profileStatTile(IconData icon, String title) {
+    return Container(
+      padding: const EdgeInsets.only(top: 20, bottom: 20, left: 55, right: 55),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        color: accentColor,
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [Icon(icon, color: textColor), bodyText(title, textColor, 1)],
       ),
     );
   }

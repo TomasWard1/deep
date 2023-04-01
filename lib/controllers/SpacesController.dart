@@ -29,7 +29,6 @@ class SpacesController extends GetxController {
   }
 
   User get currentUser {
-    print(allUsers);
     return allUsers.singleWhere((element) => element.id == uidForLogin);
   }
 
@@ -86,7 +85,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'La Puerta Abierta',
         description:
-        'Una mujer regresa a su hogar después de estar ausente durante años y descubre que la puerta estaba abierta para ella',
+            'Una mujer regresa a su hogar después de estar ausente durante años y descubre que la puerta estaba abierta para ella',
         authorId: 'b',
         space: misterio,
         likes: 100,
@@ -96,7 +95,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'La Última Noche',
         description:
-        'Una mujer desaparece después de una fiesta, y su esposo debe descubrir la verdad antes de que sea demasiado tarde',
+            'Una mujer desaparece después de una fiesta, y su esposo debe descubrir la verdad antes de que sea demasiado tarde',
         authorId: 'c',
         space: misterio,
         likes: 100,
@@ -106,7 +105,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'El Pasado Oculto',
         description:
-        'Un hombre descubre secretos oscuros sobre su pasado mientras investiga la misteriosa muerte de su padre',
+            'Un hombre descubre secretos oscuros sobre su pasado mientras investiga la misteriosa muerte de su padre',
         authorId: 'd',
         space: misterio,
         likes: 100,
@@ -116,7 +115,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'La Sombra Negra',
         description:
-        ' Un detective debe perseguir a un asesino en serie conocido como "La Sombra Negra" antes de que vuelva a atacar',
+            ' Un detective debe perseguir a un asesino en serie conocido como "La Sombra Negra" antes de que vuelva a atacar',
         authorId: 'e',
         space: misterio,
         likes: 100,
@@ -126,7 +125,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'El Secreto Mortal',
         description:
-        'Un grupo de amigos descubren un oscuro secreto mientras investigan la extraña muerte de uno de ellos',
+            'Un grupo de amigos descubren un oscuro secreto mientras investigan la extraña muerte de uno de ellos',
         authorId: 'f',
         space: misterio,
         likes: 100,
@@ -154,7 +153,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'El Cuarto Cerrado',
         description:
-        'Un asesinato ocurre en una habitación cerrada por dentro, y un detective debe descubrir cómo el asesino lo hizo.',
+            'Un asesinato ocurre en una habitación cerrada por dentro, y un detective debe descubrir cómo el asesino lo hizo.',
         authorId: 'i',
         space: misterio,
         likes: 100,

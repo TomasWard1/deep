@@ -12,6 +12,14 @@ class User {
   final List<Space> spaces;
   final UserType type;
 
+  int get spaceCount => spaces.length;
+
+  int get bookCount => books?.length ?? 0;
+
+  int get totalContributions => 100; //hacer esta cuenta
+
+  bool get isAuthor => type == UserType.Autor;
+
   User(
       {required this.id,
       required this.pseudonym,
