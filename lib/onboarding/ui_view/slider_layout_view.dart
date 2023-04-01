@@ -3,13 +3,12 @@ En este archivo está el widget que se encarga de mostrar el slider
 */
 import 'dart:async';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/SpacesController.dart';
 import '../../helpers/DeepWidgets.dart';
-import '../../screens/UserForm.dart';
+import '../../helpers/Functions.dart';
 import '../model/slider.dart';
 import '../widgets/slide_dots.dart';
 import '../widgets/slide_items/slide_item.dart';
@@ -26,6 +25,7 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
   int _currentPage = 0; // Acá defino la variable que se encarga de saber en que slide estamos
   final PageController _pageController = PageController(initialPage: 0);
   final DeepWidgets dw = DeepWidgets();
+
   SpacesController get sc => Get.find<SpacesController>();
 
   @override
@@ -113,14 +113,13 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                       ),
                     ),
                     if (_currentPage == 2)
-                    Container(
-                         alignment: AlignmentDirectional.bottomCenter,
-                        margin: const EdgeInsets.only(bottom: 20),
-                        width: double.infinity,
-                        child: dw.actionButton('Comenzar', Icons.done, () async {
-                          await sc.setOnboarding(true);
-                          await Get.to(() => UserForm());
-                        }))
+                      Container(
+                          alignment: AlignmentDirectional.bottomCenter,
+                          margin: const EdgeInsets.only(bottom: 20),
+                          width: double.infinity,
+                          child: dw.actionButton('Conectar Wallet', Icons.wallet, () async {
+                            Functions().loginWithMetamask(false);
+                          }))
                   ],
                 )
               ],

@@ -433,13 +433,10 @@ class DeepWidgets {
 
   Widget preliminares() {
     return (sc.currentUser.bookCount == 0)
-        ? Column(
-          children: [
-            const Spacer(),
-            bodyText('Todavia no tiene libros!', textColor, 1),
-            const Spacer(),
-          ],
-        )
+        ? Padding(
+            padding: const EdgeInsets.only(top: 20.0),
+            child: bodyText('Todavia no tiene libros!', textColor, 1),
+          )
         : ListView.builder(
             primary: false,
             physics: const NeverScrollableScrollPhysics(),

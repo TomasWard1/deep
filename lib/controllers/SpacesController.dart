@@ -6,16 +6,20 @@ import 'package:hackitba/classes/BookClass.dart';
 import 'package:hackitba/classes/ContributionClass.dart';
 import 'package:hackitba/helpers/DatabaseManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 import '../classes/SpaceClass.dart';
 import '../classes/UserClass.dart';
 
 class SpacesController extends GetxController {
   RxList<Space> spaces = RxList<Space>([]);
+  final Rxn<SessionStatus> sessionGlobal = Rxn<SessionStatus>(null);
+  final RxString uriGlobal = RxString('');
   RxInt navIndex = 0.obs;
   RxInt stepIndex = 0.obs;
   TextEditingController fullNameController = TextEditingController();
   TextEditingController pseudonymController = TextEditingController();
+  String accountId = '';
   Rxn<File> profileImage = Rxn<File>(null);
   final userFormKey = GlobalKey<FormState>();
   RxBool loading = false.obs;
@@ -26,12 +30,15 @@ class SpacesController extends GetxController {
   void onInit() {
     addTestSpaces();
     DatabaseManager().getAllUsers();
+    //setOnboarding(false);
     super.onInit();
   }
 
   User get currentUser {
     return allUsers.singleWhere((element) => element.id == uidForLogin);
   }
+
+  bool get connectedToWallet => sessionGlobal.value != null;
 
   setLoading(bool value) {
     loading.value = value;
