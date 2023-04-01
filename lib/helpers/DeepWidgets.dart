@@ -32,7 +32,7 @@ class DeepWidgets {
               boxShadow: const [BoxShadow(color: Colors.black, blurRadius: 3, spreadRadius: 0)]),
           child: Column(
             children: [
-              Row(
+              Row(//
                 children: [
                   const CircleAvatar(
                     backgroundColor: Colors.black12,
