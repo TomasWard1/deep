@@ -38,6 +38,11 @@ dependencies:
   get: ^4.6.5
   google_fonts: ^4.0.3
   floating_bottom_navigation_bar: ^1.5.2
+  image_picker: ^0.8.7+1
+  image_cropper: ^3.0.2
+  uuid: ^3.0.7
+  flutter_ipfs: ^0.0.2
+  ipfs_client_flutter: ^1.0.7
 
 dev_dependencies:
   flutter_test:

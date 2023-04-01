@@ -28,7 +28,7 @@ class SpaceDetail extends GetView<SpacesController> {
                       child: Icon(Icons.workspaces_outlined, size: 35, color: DeepWidgets().textColor),
                       //Image.asset('assets/deepLogo.jpg',width: 50,height: 50,),
                     ),
-                    Expanded(child: Hero(tag: id, child: DeepWidgets().titleText(space.name, DeepWidgets().textColor))),
+                    Expanded(child: Hero(tag: id, child: DeepWidgets().titleText(space.name, DeepWidgets().textColor,TextAlign.left))),
                   ],
                 ),
                 Expanded(

@@ -1,14 +1,22 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/classes/BookClass.dart';
 import 'package:hackitba/classes/ContributionClass.dart';
 
 import '../classes/SpaceClass.dart';
+import '../classes/UserClass.dart';
 
 class SpacesController extends GetxController {
   RxList<Space> spaces = RxList<Space>([]);
   RxInt navIndex = 0.obs;
   RxInt stepIndex = 0.obs;
+  TextEditingController fullNameController = TextEditingController();
+  TextEditingController pseudonymController = TextEditingController();
+  Rxn<File> profileImage = Rxn<File>(null);
+  final userFormKey = GlobalKey<FormState>();
+  Rxn<User> currentUser = Rxn<User>();
 
   @override
   void onInit() {

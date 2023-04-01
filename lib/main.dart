@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/controllers/SpacesController.dart';
-import 'package:hackitba/screens/NavBar.dart';
 import 'package:hackitba/screens/UserForm.dart';
 
 void main() {
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const UserForm(),
+      home: UserForm(),
     );
   }
 }

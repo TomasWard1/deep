@@ -21,7 +21,7 @@ class SpacesTab extends GetView<SpacesController> {
               //   child: Icon(Icons.workspaces_outlined, size: 35, color: DeepWidgets().textColor),
               //   //Image.asset('assets/deepLogo.jpg',width: 50,height: 50,),
               // ),
-              Expanded(child: DeepWidgets().titleText('Spaces', DeepWidgets().textColor)),
+              Expanded(child: DeepWidgets().titleText('Spaces', DeepWidgets().textColor,TextAlign.left)),
             ],
           ),
           Expanded(

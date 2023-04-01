@@ -1,6 +1,8 @@
 import 'BookClass.dart';
 import 'SpaceClass.dart';
 
+enum UserType { Autor, Lector, Editor }
+
 class User {
   final String id;
   final String fullName;
@@ -9,11 +11,13 @@ class User {
   final String? imageUrl;
   final List<Book>? books;
   final List<Space> spaces;
+  final UserType type;
 
   User(
       {required this.id,
       required this.pseudonym,
       required this.fullName,
+      required this.type,
       required this.bio,
       required this.imageUrl,
       required this.books,

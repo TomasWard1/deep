@@ -1,19 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hackitba/controllers/SpacesController.dart';
 import 'package:hackitba/screens/SpaceDetail.dart';
 
 import '../classes/BookClass.dart';
 import '../classes/SpaceClass.dart';
+import '../classes/UserClass.dart';
+import 'Functions.dart';
 import 'SnackbarManager.dart';
 
 class DeepWidgets {
   Color bgColor = const Color(0xFFF2E5D0);
   Color textColor = const Color(0xFF2C1810);
-  Color accentColor = const Color(0xFFdaaa63);
+  Color accentColor = const Color(0xFFEEC78E);
 
-  Widget titleText(String title, Color color) => Text(
+  SpacesController get sc => Get.find<SpacesController>();
+
+  Widget titleText(String title, Color color, TextAlign align) => Text(
         title,
+        textAlign: align,
         style: GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 40, color: color)),
       );
 
@@ -303,7 +309,9 @@ class DeepWidgets {
   Widget actionButton(String title, IconData icon, Function onPressed) {
     return ElevatedButton(
         style: ElevatedButton.styleFrom(
-            backgroundColor: accentColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
+            padding: const EdgeInsets.all(15),
+            backgroundColor: accentColor,
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
         onPressed: () => onPressed(),
         child: Row(
           mainAxisSize: MainAxisSize.min,
@@ -331,6 +339,79 @@ class DeepWidgets {
         )),
         actionButton('Like', Icons.favorite_border, () {}),
       ],
+    );
+  }
+
+  Widget textFormField(TextEditingController c, String hintText, bool bold, double size) {
+    return TextFormField(
+      validator: (t) {
+        if (t == null || t.isEmpty) {
+          return 'Cannot be empty';
+        }
+        return null;
+      },
+      textAlign: TextAlign.center,
+      style: GoogleFonts.nunito(
+          textStyle:
+              TextStyle(fontWeight: (bold) ? FontWeight.bold : FontWeight.normal, fontSize: size, color: textColor)),
+      decoration: InputDecoration(contentPadding: EdgeInsets.zero, hintText: hintText, border: InputBorder.none),
+    );
+  }
+
+  Widget get profileImageSelector => Obx(
+        () => GestureDetector(
+          onTap: () async {
+            await Functions().pickImage();
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Row(
+              children: [
+                const Spacer(),
+                Container(
+                  padding: const EdgeInsets.all(65),
+                  decoration: BoxDecoration(
+                      color: Colors.black12,
+                      borderRadius: BorderRadius.circular(20),
+                      image: (sc.profileImage.value != null)
+                          ? DecorationImage(
+                              image: FileImage(sc.profileImage.value!),
+                              fit: BoxFit.cover,
+                            )
+                          : null),
+                  child: (sc.profileImage.value != null)
+                      ? Container()
+                      : Icon(Icons.add_a_photo, color: textColor, size: 40),
+                ),
+                const Spacer()
+              ],
+            ),
+          ),
+        ),
+      );
+
+  Widget cuadradoRol(String imageName, String title,UserType type) {
+    return GestureDetector(
+      onTap: () {
+        Functions().saveProfileInfo(sc.fullNameController.text, sc.pseudonymController.text, sc.profileImage.value,type);
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(20),
+                image: DecorationImage(image: AssetImage(imageName)),
+                color: accentColor,
+              )),
+          Padding(
+            padding: const EdgeInsets.only(top: 10.0),
+            child: headingText(title, textColor),
+          )
+        ],
+      ),
     );
   }
 }
