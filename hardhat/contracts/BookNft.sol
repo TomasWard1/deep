@@ -3,6 +3,8 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
+error URINotProvided(uint256 tokenId);
+
 contract BookNft is ERC721URIStorage {
     uint256 private s_tokenCounter;
 
@@ -18,6 +20,9 @@ contract BookNft is ERC721URIStorage {
     }
 
     function mintNft(string memory tokenURI) public {
+        if (bytes(tokenURI).length == 0) {
+            revert URINotProvided(s_tokenCounter);
+        }
         _safeMint(msg.sender, s_tokenCounter);
         _setTokenURI(s_tokenCounter, tokenURI);
         emit NftMinted(s_tokenCounter);

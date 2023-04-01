@@ -1,4 +1,4 @@
-const { assert } = require("chai");
+const { assert, expect } = require("chai");
 const { network, deployments, ethers } = require("hardhat");
 const { developmentChains } = require("../../helper-hardhat-config");
 
@@ -40,6 +40,11 @@ const { developmentChains } = require("../../helper-hardhat-config");
 
                   assert.equal(deployerBalance.toString(), "1");
                   assert.equal(owner, deployerAddress);
+              });
+          });
+          describe("Mint NFT Incorrectly", () => {
+              it("reverts if tokenURI is empty", async () => {
+                  await expect(bookNft.mintNft("")).to.be.revertedWith("URINotProvided");
               });
           });
           describe("Modify Token URI", () => {

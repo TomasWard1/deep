@@ -65,32 +65,6 @@ const { BigNumber } = require("ethers");
               });
           });
 
-          describe("Cancel listing", function () {
-              it("reverts if not listed", async () => {
-                  const error = `NotListed("${bookNft.address}", ${TOKEN_ID})`;
-                  await expect(space.cancelListing(bookNft.address, TOKEN_ID)).to.be.revertedWith(
-                      error
-                  );
-              });
-
-              it("reverts if anyone but the owner tries to call", async () => {
-                  await space.listItem(bookNft.address, TOKEN_ID, UNITS, PRICE);
-                  space = spaceContract.connect(user);
-                  await bookNft.approve(user.address, TOKEN_ID);
-                  await expect(space.cancelListing(bookNft.address, TOKEN_ID)).to.be.revertedWith(
-                      "NotOwner"
-                  );
-              });
-
-              it("emits event and removes listing", async function () {
-                  await space.listItem(bookNft.address, TOKEN_ID, UNITS, PRICE);
-                  expect(await space.cancelListing(bookNft.address, TOKEN_ID)).to.emit(
-                      "ItemCanceled"
-                  );
-                  const listing = await space.getListing(bookNft.address, TOKEN_ID);
-                  assert(listing.unitPrice.toString() == "0");
-              });
-          });
           describe("fundBook", function () {
               it("reverts if the item isnt listed", async function () {
                   await expect(

@@ -49,12 +49,6 @@ contract Space is ReentrancyGuard {
         uint256 unitPrice
     );
 
-    event ItemCanceled(
-        address indexed author,
-        address indexed nftAddress,
-        uint256 indexed tokenId
-    );
-
     event BookFunded(
         address indexed funder,
         address indexed nftAddress,
@@ -195,20 +189,6 @@ contract Space is ReentrancyGuard {
         }
 
         emit BookFunded(msg.sender, nftAddress, tokenId, listedItem.unitPrice, units);
-    }
-
-    /*
-     * @notice Method for canceling listing of a bookNft
-     * @param nftAddress: Address of NFT contract
-     * @param tokenId: Token ID of Book NFT
-     */
-
-    function cancelListing(
-        address nftAddress,
-        uint256 tokenId
-    ) external isOwner(nftAddress, tokenId, msg.sender) isListed(nftAddress, tokenId) {
-        delete (s_listings[nftAddress][tokenId]);
-        emit ItemCanceled(msg.sender, nftAddress, tokenId);
     }
 
     /*
