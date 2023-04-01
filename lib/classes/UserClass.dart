@@ -20,6 +20,8 @@ class User {
 
   bool get isAuthor => type == UserType.Autor;
 
+  bool get hasBooks => bookCount > 0;
+
   User(
       {required this.id,
       required this.pseudonym,

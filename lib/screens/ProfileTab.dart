@@ -56,14 +56,15 @@ class ProfileTab extends GetView<SpacesController> {
                   padding: const EdgeInsets.only(top: 25.0),
                   child: dw.profileStats(),
                 ),
-                Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.only(top:25,left:5),
-                  child: dw.headingText(
-                    'Preliminares',
-                    dw.textColor,
+                if (controller.currentUser.hasBooks)
+                  Container(
+                    width: double.infinity,
+                    margin: const EdgeInsets.only(top: 25, left: 5),
+                    child: dw.headingText(
+                      'Preliminares',
+                      dw.textColor,
+                    ),
                   ),
-                ),
                 Expanded(child: dw.preliminares()),
               ],
             ),
