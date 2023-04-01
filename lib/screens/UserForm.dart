@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 
 import '../controllers/SpacesController.dart';
 import '../helpers/DeepWidgets.dart';
-import '../helpers/SnackbarManager.dart';
+import '../helpers/DialogManager.dart';
 import 'ChooseUserType.dart';
 
 class UserForm extends GetView<SpacesController> {

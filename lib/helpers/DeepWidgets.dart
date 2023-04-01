@@ -8,7 +8,7 @@ import '../classes/BookClass.dart';
 import '../classes/SpaceClass.dart';
 import '../classes/UserClass.dart';
 import 'Functions.dart';
-import 'SnackbarManager.dart';
+import 'DialogManager.dart';
 
 class DeepWidgets {
   Color bgColor = const Color(0xFFF2E5D0);
