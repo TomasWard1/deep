@@ -4,6 +4,16 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
+/*
+ * @title Space for crowdfunding books
+ * @notice Space is a crowdfunding platform for publishing books
+ * @dev Authors can list their books with a price and units (books or hours) to sell
+ * @dev Readers can fund authors by units (books or hours)
+ * @dev Authors can withdraw their proceeds
+ * @dev Authors can cancel their listings
+ * @dev Readers can like or dislike books
+ */
+
 error PriceMustBeAboveZero();
 error UnitsMustBeAboveZero();
 error IncorrectRange(
@@ -20,21 +30,17 @@ error NoProceeds();
 error TransferFailed();
 
 contract Space is ReentrancyGuard {
-    struct SpaceAtributtes {
-        uint256 id;
-        string spaceURI;
-        // uint256 units;
-        // uint256 unitsSold;
-    }
-
     // units: books or hours. Represent the limit of books or hours that the author wants to sell
     struct Listing {
         address author;
         uint256 units;
         uint256 unitPrice;
+        uint256 likes;
     }
 
-    //events
+    /////////////////////
+    //     Events     //
+    ///////////////////
     event ItemListed(
         address indexed author,
         address indexed nftAddress,
@@ -57,7 +63,15 @@ contract Space is ReentrancyGuard {
         uint256 unitPrice
     );
 
-    // NFT Contract address => NFT TokenID (Book) => Listing (author, units , unitPrice)
+    event BookLiked(address nftAddress, uint256 tokenId);
+
+    event BookDisliked(address nftAddress, uint256 tokenId);
+
+    //////////////////////
+    // Data Structures //
+    ////////////////////
+
+    // NFT Contract address => NFT TokenID (Book) => Listing (author, units , unitPrice, likes)
     mapping(address => mapping(uint256 => Listing)) private s_listings;
 
     // Author address => NFT address => NFT TokenId => amount earned
@@ -66,11 +80,10 @@ contract Space is ReentrancyGuard {
     // Funder address => amount funded
     mapping(address => uint256) private s_contributors;
 
-    Space private s_space;
-
     /////////////////////
     //   Modifiers    //
     ///////////////////
+
     modifier notListed(
         address nftAddress,
         uint256 tokenId,
@@ -104,8 +117,6 @@ contract Space is ReentrancyGuard {
         _;
     }
 
-    constructor() {}
-
     ////////////////////
     // Main Functions //
     ////////////////////
@@ -134,8 +145,8 @@ contract Space is ReentrancyGuard {
             revert UnitsMustBeAboveZero();
         }
 
-        //Update listings (author, units, unitPrice)
-        s_listings[nftAddress][tokenId] = Listing(msg.sender, unitPrice, units);
+        //Update listings (author, units, unitPrice, likes)
+        s_listings[nftAddress][tokenId] = Listing(msg.sender, units, unitPrice, 0);
         //Initialize proceeds
         s_proceeds[msg.sender][nftAddress][tokenId] = 0;
 
@@ -156,10 +167,12 @@ contract Space is ReentrancyGuard {
     ) external payable nonReentrant isListed(nftAddress, tokenId) {
         Listing memory listedItem = s_listings[nftAddress][tokenId];
 
+        // 0 < units funded <= listedItem.units
         if ((units > listedItem.units) || (units <= 0)) {
             revert IncorrectRange(nftAddress, tokenId, listedItem.units, units);
         }
 
+        // check if value sent is equal to units * unitPrice
         if (msg.value != (listedItem.unitPrice * units)) {
             revert PriceNotMet(nftAddress, tokenId, listedItem.unitPrice, units);
         }
@@ -181,6 +194,12 @@ contract Space is ReentrancyGuard {
         emit BookFunded(msg.sender, nftAddress, tokenId, listedItem.unitPrice, units);
     }
 
+    /*
+     * @notice Method for canceling listing of a bookNft
+     * @param nftAddress: Address of NFT contract
+     * @param tokenId: Token ID of Book NFT
+     */
+
     function cancelListing(
         address nftAddress,
         uint256 tokenId
@@ -189,6 +208,11 @@ contract Space is ReentrancyGuard {
         emit ItemCanceled(msg.sender, nftAddress, tokenId);
     }
 
+    /*
+     * @notice Method for withdrawing proceeds of a bookNft
+     * @param nftAddress: Address of NFT contract
+     * @param tokenId: Token ID of Book NFT
+     */
     function withdrawProceeds(address nftAddress, uint256 tokenId) external nonReentrant {
         uint256 proceeds = s_proceeds[msg.sender][nftAddress][tokenId];
 
@@ -204,6 +228,19 @@ contract Space is ReentrancyGuard {
         if (!success) {
             revert TransferFailed();
         }
+    }
+
+    function likeBook(address nftAddress, uint256 tokenId) public isListed(nftAddress, tokenId) {
+        s_listings[nftAddress][tokenId].likes += 1;
+        emit BookLiked(nftAddress, tokenId);
+    }
+
+    function dislikeBook(
+        address nftAddress,
+        uint256 tokenId
+    ) public isListed(nftAddress, tokenId) {
+        s_listings[nftAddress][tokenId].likes -= 1;
+        emit BookDisliked(nftAddress, tokenId);
     }
 
     ///////////////////////
