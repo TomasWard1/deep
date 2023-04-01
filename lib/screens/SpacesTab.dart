@@ -17,9 +17,14 @@ class SpacesTab extends GetView<SpacesController> {
             padding: const EdgeInsets.all(15.0),
             child: Column(
               children: [
-                SizedBox(
-                  width: double.infinity,
-                  child: DeepWidgets().titleText('Spaces', DeepWidgets().textColor),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 5.0),
+                      child: Image.asset('assets/deepLogo.jpg',width: 50,height: 50,),
+                    ),
+                    Expanded(child: DeepWidgets().titleText('Spaces', DeepWidgets().textColor)),
+                  ],
                 ),
                 Expanded(
                   child: ListView.builder(

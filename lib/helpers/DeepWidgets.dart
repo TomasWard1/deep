@@ -34,7 +34,7 @@ class DeepWidgets {
               color: bgColor,
               // color: s.color,
               borderRadius: BorderRadius.circular(20),
-              boxShadow: [BoxShadow(color: textColor, blurRadius: 3, spreadRadius: 1)]),
+              boxShadow: [BoxShadow(color: textColor, blurRadius: 3, spreadRadius: 0)]),
           child: Column(
             children: [
               Row(
@@ -51,12 +51,13 @@ class DeepWidgets {
                   ))
                 ],
               ),
-              Padding(
+              Container(
+                width: double.infinity,
                 padding: const EdgeInsets.only(left: 5.0, top: 5, bottom: 10),
                 child: bodyText(s.description, textColor),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 15, right: 10),
+                padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [Expanded(child: participantOverlapList(s.participantIds, s.color)), joinButton()],

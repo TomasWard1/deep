@@ -16,8 +16,7 @@ class SpacesController extends GetxController {
     Space misterio = Space(
         name: 'Misterio',
         color: Colors.purple.shade300,
-        description:
-            'una obra de ficción que se enfoca en la resolución de un crimen o misterio a través de la investigación y la deducción',
+        description: 'Novelas misteriosas que te atrapan sin que te lo esperes.',
         id: '1',
         imageUrl: '',
         participantIds: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']);
@@ -25,8 +24,7 @@ class SpacesController extends GetxController {
     Space drama = Space(
         name: 'Drama',
         color: Colors.red.shade300,
-        description:
-            'una obra de teatro que representa la vida humana y las relaciones entre personajes a través del diálogo y la acción',
+        description: 'Entrar solo si queres llorar.',
         id: '2',
         imageUrl: '',
         participantIds: ['a', 'b', 'c', 'd', 'e', 'f', 'g']);
@@ -34,7 +32,7 @@ class SpacesController extends GetxController {
     Space fantasia = Space(
         name: 'Fantasía',
         color: Colors.green.shade300,
-        description: 'un género que presenta un mundo imaginario con elementos mágicos y sobrenaturales',
+        description: 'Un mundo sin fronteras. Las obras aca no tienen limite.',
         id: '3',
         imageUrl: '',
         participantIds: ['e', 'f', 'g', 'h', 'i']);
@@ -42,8 +40,7 @@ class SpacesController extends GetxController {
     Space thriller = Space(
         name: 'Thriller',
         color: Colors.teal.shade300,
-        description:
-            'un género que se enfoca en crear suspense y tensión emocional en el lector a través de una trama llena de giros y sorpresas',
+        description: 'Como dijo Michael Jackson: \'With such confusions don\'t it make you wanna scream?\'',
         id: '4',
         imageUrl: '',
         participantIds: ['a', 'd', 'e']);
@@ -51,7 +48,7 @@ class SpacesController extends GetxController {
     Space cuentos = Space(
         name: 'Cuentos',
         color: Colors.lime.shade300,
-        description: 'una obra de ficción breve que narra una historia con un inicio, un nudo y un desenlace',
+        description: 'Cuentos cortos de menos de 1500 palabras.',
         id: '5',
         imageUrl: '',
         participantIds: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']);
@@ -60,7 +57,7 @@ class SpacesController extends GetxController {
         name: 'Historia',
         color: Colors.orange.shade300,
         description:
-            'un relato que documenta y analiza eventos pasados en la sociedad, la política, la cultura y otros aspectos de la vida humana',
+            'Ensayos, biografias, y investigaciones actuales sobre la historia de la humanidad.',
         id: '6',
         imageUrl: '',
         participantIds: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h']);
