@@ -8,6 +8,11 @@ contract ProfileNft is ERC721URIStorage {
 
     event NftMinted(uint256 indexed tokenId);
 
+    modifier onlyOwner(uint256 tokenId) {
+        require(msg.sender == ownerOf(tokenId), "You are not the owner of this NFT");
+        _;
+    }
+
     constructor() ERC721("ProfileNft", "PNFT") {
         s_tokenCounter = 0;
     }
@@ -21,6 +26,14 @@ contract ProfileNft is ERC721URIStorage {
 
     function _baseURI() internal pure override returns (string memory) {
         return "data:application/json;base64,";
+    }
+
+    function modifyTokenURI(
+        uint256 tokenId,
+        string memory tokenURI
+    ) public onlyOwner(tokenId) returns (bool) {
+        _setTokenURI(tokenId, tokenURI);
+        return true;
     }
 
     function getTokenCounter() public view returns (uint256) {
