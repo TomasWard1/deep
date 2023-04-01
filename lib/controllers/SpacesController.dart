@@ -8,6 +8,7 @@ import '../classes/SpaceClass.dart';
 class SpacesController extends GetxController {
   RxList<Space> spaces = RxList<Space>([]);
   RxInt navIndex = 0.obs;
+  RxInt stepIndex = 0.obs;
 
   @override
   void onInit() {

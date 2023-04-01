@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/controllers/SpacesController.dart';
 import 'package:hackitba/screens/NavBar.dart';
+import 'package:hackitba/screens/UserForm.dart';
 
 void main() {
   Get.put(SpacesController());
@@ -28,7 +29,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: NavBar(),
+      home: const UserForm(),
     );
   }
 }

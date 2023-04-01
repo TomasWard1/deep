@@ -3,7 +3,8 @@ import 'SpaceClass.dart';
 
 class User {
   final String id;
-  final String username;
+  final String fullName;
+  final String pseudonym;
   final String bio;
   final String? imageUrl;
   final List<Book>? books;
@@ -11,7 +12,8 @@ class User {
 
   User(
       {required this.id,
-      required this.username,
+      required this.pseudonym,
+      required this.fullName,
       required this.bio,
       required this.imageUrl,
       required this.books,
