@@ -20,8 +20,9 @@ class SpacesTab extends GetView<SpacesController> {
                 Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(right: 5.0),
-                      child: Image.asset('assets/deepLogo.jpg',width: 50,height: 50,),
+                      padding: const EdgeInsets.only(right: 5.0,left: 5.0),
+                      child: Icon(Icons.workspaces_outlined, size:35,color: DeepWidgets().textColor),
+                      //Image.asset('assets/deepLogo.jpg',width: 50,height: 50,),
                     ),
                     Expanded(child: DeepWidgets().titleText('Spaces', DeepWidgets().textColor)),
                   ],

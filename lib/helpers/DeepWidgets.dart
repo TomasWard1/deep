@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hackitba/screens/SpaceDetail.dart';
 
 import '../classes/SpaceClass.dart';
+import 'SnackbarManager.dart';
 
 class DeepWidgets {
   Color bgColor = const Color(0xFFF2E5D0);
@@ -47,7 +50,7 @@ class DeepWidgets {
                   Expanded(
                       child: Padding(
                     padding: const EdgeInsets.only(left: 10.0),
-                    child: headingText(s.name, textColor),
+                    child: Hero(tag: s.id, child: headingText(s.name, textColor)),
                   ))
                 ],
               ),
@@ -60,7 +63,7 @@ class DeepWidgets {
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [Expanded(child: participantOverlapList(s.participantIds, s.color)), joinButton()],
+                  children: [Expanded(child: participantOverlapList(s.participantIds, s.color)), joinButton(s)],
                 ),
               )
             ],
@@ -68,10 +71,12 @@ class DeepWidgets {
         ),
       );
 
-  Widget joinButton() {
+  Widget joinButton(Space s) {
     return ElevatedButton(
-        onPressed: () {
+        onPressed: () async {
           //join space
+          await SnackBarManager().success('Joined ${s.name}');
+          Get.to(() => SpaceDetail(id: s.id));
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: accentColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
@@ -111,5 +116,57 @@ class DeepWidgets {
             )),
       ),
     );
+  }
+
+  Widget topContributors(Space s) {
+    return ExpansionTile(
+      leading: Icon(Icons.workspace_premium_outlined, color: textColor),
+      title: const Text('Top Contributors'),
+      textColor: textColor,
+      iconColor: textColor,
+      collapsedIconColor: textColor,
+      collapsedTextColor: textColor,
+      collapsedBackgroundColor: accentColor,
+      backgroundColor: accentColor,
+      collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      children: [
+        ListView.builder(
+            shrinkWrap: true,
+            itemCount: s.contributors.length,
+            itemBuilder: (c, i) {
+              String username = s.contributors.keys.elementAt(i);
+              // int totalBooks = s.contributors[i]?.totalBooks;
+              // int totalAmount = s.contributors[i]?.totalAmount;
+              int totalBooks = 3;
+              int totalAmount = 10;
+              return contributorListTile(username, totalBooks, totalAmount);
+            })
+      ],
+    );
+  }
+
+  Widget contributorListTile(String username, int totalBooks, int totalAmount) {
+    return Container(
+      child: Row(
+        children: [
+          Expanded(
+            child: bodyText(username, textColor),
+          ),
+          Icon(Icons.book_outlined, color: textColor),
+          bodyText(totalBooks.toString(), textColor),
+          Icon(Icons.attach_money, color: textColor),
+          bodyText("$totalAmount ETH", textColor)
+        ],
+      ),
+    );
+  }
+
+  Widget topAuthors() {
+    return ExpansionTile(title: Text('f'));
+  }
+
+  Widget bookList() {
+    return ExpansionTile(title: Text('f'));
   }
 }

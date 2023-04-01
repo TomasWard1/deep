@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'ContributionClass.dart';
+
 class Space {
   //variables
   final String name;
@@ -8,6 +10,7 @@ class Space {
   final String imageUrl;
   final List<String> participantIds;
   final Color color;
+  final Map<String, Contribution> contributors;
 
   //initialization
   Space(
@@ -15,6 +18,7 @@ class Space {
       required this.description,
       required this.id,
       required this.color,
+      required this.contributors,
       required this.imageUrl,
       required this.participantIds});
 
