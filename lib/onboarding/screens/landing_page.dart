@@ -1,8 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:deep_prueba/constants/constants.dart';
-import 'package:deep_prueba/ui_view/slider_layout_view.dart';
-import 'package:deep_prueba/widgets/custom_font.dart';
+import 'package:hackitba/helpers/DeepWidgets.dart';
+
+import '../ui_view/slider_layout_view.dart';
 
 class LandingPage extends StatefulWidget {
   @override
@@ -19,6 +18,7 @@ class _LandingPageState extends State<LandingPage> {
   }
 
   Widget onBordingBody() => Container(
+        color: DeepWidgets().bgColor,
         child: SliderLayoutView(),
       );
 }

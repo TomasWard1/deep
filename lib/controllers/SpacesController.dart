@@ -222,7 +222,7 @@ class SpacesController extends GetxController {
   Future<bool> didOnboard() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     final bool? didOnboard = prefs.getBool('onboard');
-
+    print(didOnboard);
     return didOnboard ?? false;
   }
 }

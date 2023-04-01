@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:hackitba/helpers/DatabaseManager.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ipfs_client_flutter/ipfs_client_flutter.dart';
 import 'package:uuid/uuid.dart';
 
 import '../classes/UserClass.dart';
@@ -29,6 +28,7 @@ class Functions {
         id: userId, pseudonym: pseudonym, fullName: fullName, imageUrl: imageUrl, books: [], spaces: [], type: type);
 
     await DatabaseManager().saveUser(toAdd);
+    sc.uidForLogin = toAdd.id;
     sc.setLoading(false);
     Get.to(() => NavBar());
     //add user json to ipfs. For now, store locally
@@ -42,5 +42,4 @@ class Functions {
       sc.profileImage.value = File(image.path);
     }
   }
-
 }

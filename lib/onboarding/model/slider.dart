@@ -3,7 +3,8 @@ En este archivo está la clase slider que tiene los atributos que usamos en cada
 */
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:deep_prueba/constants/constants.dart';
+
+import '../constants/constants.dart';
 
 class ConnectWalletButton extends StatelessWidget {
   const ConnectWalletButton({Key? key}) : super(key: key);
@@ -50,15 +51,15 @@ class Slider {
 final List<Slider> sliderArrayList = [
 // Acá defino los objetos que se van a usar en cada slide
   Slider(
-      sliderImageUrl: 'assets/images/slider_1.png',
+      sliderImageUrl: 'assets/slider_1.png',
       sliderHeading: Constants.TITULO1,
       sliderSubHeading: Constants.DESCRIPCION1),
   Slider(
-      sliderImageUrl: 'assets/images/slider_2.png',
+      sliderImageUrl: 'assets/slider_2.png',
       sliderHeading: Constants.TITULO2,
       sliderSubHeading: Constants.DESCRIPCION2),
   Slider(
-      sliderImageUrl: 'assets/images/slider_3.png',
+      sliderImageUrl: 'assets/slider_3.png',
       sliderHeading: Constants.TITULO3,
       sliderSubHeading: Constants.DESCRIPCION3),
   // Agregar botón de

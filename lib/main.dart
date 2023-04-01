@@ -2,6 +2,8 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/controllers/SpacesController.dart';
+import 'package:hackitba/helpers/DeepWidgets.dart';
+import 'package:hackitba/onboarding/screens/landing_page.dart';
 import 'package:hackitba/screens/NavBar.dart';
 import 'package:hackitba/screens/UserForm.dart';
 
@@ -25,11 +27,27 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: (sc.uidForLogin.isNotEmpty) ? NavBar() : UserForm(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: FutureBuilder(
+            future: sc.didOnboard(),
+            builder: (c, AsyncSnapshot<bool> s) {
+              if (s.connectionState == ConnectionState.waiting) {
+                return Material(
+                    color: DeepWidgets().bgColor,
+                    child: Center(
+                      child: CircularProgressIndicator(color: DeepWidgets().accentColor),
+                    ));
+              } else {
+                bool didOnboard = s.data ?? false;
+                return (didOnboard)
+                    ? (sc.uidForLogin.isNotEmpty)
+                        ? NavBar()
+                        : UserForm()
+                    : LandingPage();
+              }
+            }));
   }
 }

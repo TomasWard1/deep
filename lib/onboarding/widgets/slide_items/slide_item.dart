@@ -2,13 +2,21 @@
 En este archivo está el widget que se encarga de mostrar cada slide
 */
 
-import 'package:flutter/cupertino.dart';
-import 'package:deep_prueba/constants/constants.dart';
-import 'package:deep_prueba/model/slider.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hackitba/helpers/DeepWidgets.dart';
+
+import '../../../controllers/SpacesController.dart';
+import '../../model/slider.dart';
 
 class SlideItem extends StatelessWidget {
   final int index;
-  const SlideItem(this.index, {super.key});
+  final DeepWidgets dw = DeepWidgets();
+
+  SpacesController get sc => Get.find<SpacesController>();
+
+  SlideItem(this.index, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,45 +25,27 @@ class SlideItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
+        const Spacer(),
         Container(
           // Contenedor que contiene la imagen del slide
           height: MediaQuery.of(context).size.width * 0.6,
           width: MediaQuery.of(context).size.height * 0.4,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  image: AssetImage(sliderArrayList[index].sliderImageUrl))),
+          decoration: BoxDecoration(image: DecorationImage(image: AssetImage(sliderArrayList[index].sliderImageUrl))),
         ),
-        const SizedBox(
-          height: 60.0,
+        Padding(
+          padding: const EdgeInsets.only(top: 30.0),
+          child: dw.titleText(sliderArrayList[index].sliderHeading, dw.textColor, TextAlign.center),
         ),
-        Text(
-          // Texto que contiene el título del slide
-          sliderArrayList[index].sliderHeading,
-          style: const TextStyle(
-            fontFamily: Constants.NUNITO,
-            fontWeight: FontWeight.w700,
-            fontSize: 20.5,
+        Padding(
+          padding: const EdgeInsets.only(left: 5, right: 5),
+          child: Text(
+            sliderArrayList[index].sliderSubHeading,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.nunito(
+                textStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 19, color: dw.textColor)),
           ),
         ),
-        const SizedBox(
-          height: 15.0,
-        ),
-        Center(
-          // Texto que contiene la descripción del slide
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40.0),
-            child: Text(
-              sliderArrayList[index].sliderSubHeading,
-              style: const TextStyle(
-                fontFamily: Constants.NUNITO,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 1.5,
-                fontSize: 12.5,
-              ),
-              textAlign: TextAlign.center,
-            ),
-          ),
-        )
+        const Spacer(),
       ],
     );
   }

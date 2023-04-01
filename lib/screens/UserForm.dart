@@ -60,7 +60,7 @@ class UserForm extends GetView<SpacesController> {
                   const Spacer(),
                   SizedBox(
                       width: double.infinity,
-                      child: dw.actionButton('Continue', Icons.done, () {
+                      child: dw.actionButton('Continuar', Icons.done, () {
                         if (controller.userFormKey.currentState!.validate()) {
                           Get.to(() => ChooseUserType());
                         } else {
