@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "444857512384",
+    "project_id": "deep-25ff5",
+    "storage_bucket": "deep-25ff5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:444857512384:android:c12e99e5d8078221571825",
+        "android_client_info": {
+          "package_name": "com.example.hackitba"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "444857512384-kgb3oa3ho1anui4v3h9tkamum8foqn00.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB4uH7UvpZtA9JcHP2SMbqyKIqJbCiJkxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "444857512384-kgb3oa3ho1anui4v3h9tkamum8foqn00.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "444857512384-ur02r27jsj0anu4q0768ltqad3a3iu3d.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.hackitba"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
