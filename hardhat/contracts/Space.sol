@@ -20,6 +20,13 @@ error NoProceeds();
 error TransferFailed();
 
 contract Space is ReentrancyGuard {
+    struct SpaceAtributtes {
+        uint256 id;
+        string spaceURI;
+        // uint256 units;
+        // uint256 unitsSold;
+    }
+
     // units: books or hours. Represent the limit of books or hours that the author wants to sell
     struct Listing {
         address author;
@@ -59,6 +66,8 @@ contract Space is ReentrancyGuard {
     // Funder address => amount funded
     mapping(address => uint256) private s_contributors;
 
+    Space private s_space;
+
     /////////////////////
     //   Modifiers    //
     ///////////////////
@@ -95,6 +104,8 @@ contract Space is ReentrancyGuard {
         _;
     }
 
+    constructor() {}
+
     ////////////////////
     // Main Functions //
     ////////////////////
@@ -123,7 +134,7 @@ contract Space is ReentrancyGuard {
             revert UnitsMustBeAboveZero();
         }
 
-        //Update listings
+        //Update listings (author, units, unitPrice)
         s_listings[nftAddress][tokenId] = Listing(msg.sender, unitPrice, units);
         //Initialize proceeds
         s_proceeds[msg.sender][nftAddress][tokenId] = 0;
@@ -166,8 +177,6 @@ contract Space is ReentrancyGuard {
         if (listedItem.units == 0) {
             delete (s_listings[nftAddress][tokenId]);
         }
-
-        // emit ItemBought(msg.sender, nftAddress, tokenId, listedItem.price);
 
         emit BookFunded(msg.sender, nftAddress, tokenId, listedItem.unitPrice, units);
     }
