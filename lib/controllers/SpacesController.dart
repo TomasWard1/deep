@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/classes/BookClass.dart';
 import 'package:hackitba/classes/ContributionClass.dart';
+import 'package:hackitba/helpers/DatabaseManager.dart';
 
 import '../classes/SpaceClass.dart';
 import '../classes/UserClass.dart';
@@ -16,12 +17,24 @@ class SpacesController extends GetxController {
   TextEditingController pseudonymController = TextEditingController();
   Rxn<File> profileImage = Rxn<File>(null);
   final userFormKey = GlobalKey<FormState>();
-  Rxn<User> currentUser = Rxn<User>();
+  RxBool loading = false.obs;
+  RxList<User> allUsers = RxList<User>([]);
+  String uidForLogin = '38c501a7-8e47-4da9-b3fe-dae5575ed9f1';
 
   @override
   void onInit() {
     addTestSpaces();
+    DatabaseManager().getAllUsers();
     super.onInit();
+  }
+
+  User get currentUser {
+    print(allUsers);
+    return allUsers.singleWhere((element) => element.id == uidForLogin);
+  }
+
+  setLoading(bool value) {
+    loading.value = value;
   }
 
   addTestSpaces() {
@@ -73,7 +86,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'La Puerta Abierta',
         description:
-            'Una mujer regresa a su hogar después de estar ausente durante años y descubre que la puerta estaba abierta para ella',
+        'Una mujer regresa a su hogar después de estar ausente durante años y descubre que la puerta estaba abierta para ella',
         authorId: 'b',
         space: misterio,
         likes: 100,
@@ -83,7 +96,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'La Última Noche',
         description:
-            'Una mujer desaparece después de una fiesta, y su esposo debe descubrir la verdad antes de que sea demasiado tarde',
+        'Una mujer desaparece después de una fiesta, y su esposo debe descubrir la verdad antes de que sea demasiado tarde',
         authorId: 'c',
         space: misterio,
         likes: 100,
@@ -93,7 +106,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'El Pasado Oculto',
         description:
-            'Un hombre descubre secretos oscuros sobre su pasado mientras investiga la misteriosa muerte de su padre',
+        'Un hombre descubre secretos oscuros sobre su pasado mientras investiga la misteriosa muerte de su padre',
         authorId: 'd',
         space: misterio,
         likes: 100,
@@ -103,7 +116,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'La Sombra Negra',
         description:
-            ' Un detective debe perseguir a un asesino en serie conocido como "La Sombra Negra" antes de que vuelva a atacar',
+        ' Un detective debe perseguir a un asesino en serie conocido como "La Sombra Negra" antes de que vuelva a atacar',
         authorId: 'e',
         space: misterio,
         likes: 100,
@@ -113,7 +126,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'El Secreto Mortal',
         description:
-            'Un grupo de amigos descubren un oscuro secreto mientras investigan la extraña muerte de uno de ellos',
+        'Un grupo de amigos descubren un oscuro secreto mientras investigan la extraña muerte de uno de ellos',
         authorId: 'f',
         space: misterio,
         likes: 100,
@@ -141,7 +154,7 @@ class SpacesController extends GetxController {
         id: '1',
         title: 'El Cuarto Cerrado',
         description:
-            'Un asesinato ocurre en una habitación cerrada por dentro, y un detective debe descubrir cómo el asesino lo hizo.',
+        'Un asesinato ocurre en una habitación cerrada por dentro, y un detective debe descubrir cómo el asesino lo hizo.',
         authorId: 'i',
         space: misterio,
         likes: 100,

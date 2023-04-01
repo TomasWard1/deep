@@ -16,17 +16,12 @@ class SpacesTab extends GetView<SpacesController> {
         children: [
           Row(
             children: [
-              // Padding(
-              //   padding: const EdgeInsets.only(right: 5.0, left: 5.0),
-              //   child: Icon(Icons.workspaces_outlined, size: 35, color: DeepWidgets().textColor),
-              //   //Image.asset('assets/deepLogo.jpg',width: 50,height: 50,),
-              // ),
-              Expanded(child: DeepWidgets().titleText('Spaces', DeepWidgets().textColor,TextAlign.left)),
+              Expanded(child: DeepWidgets().titleText('Spaces', DeepWidgets().textColor, TextAlign.left)),
             ],
           ),
           Expanded(
             child: ListView.builder(
-                padding: const EdgeInsets.only(top: 10, left: 5, right: 5, bottom: 20),
+                padding: const EdgeInsets.only(top: 10, left: 5, right: 5, bottom: 50),
                 shrinkWrap: true,
                 physics: const AlwaysScrollableScrollPhysics(parent: BouncingScrollPhysics()),
                 itemCount: controller.spaces.length,

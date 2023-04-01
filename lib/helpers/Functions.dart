@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:hackitba/helpers/DatabaseManager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ipfs_client_flutter/ipfs_client_flutter.dart';
 import 'package:uuid/uuid.dart';
@@ -12,25 +13,23 @@ import '../screens/NavBar.dart';
 class Functions {
   SpacesController get sc => Get.find<SpacesController>();
 
-  Future saveProfileInfo(String fullName, String pseudonym, File? image,UserType type) async {
+  Future saveProfileInfo(String fullName, String pseudonym, File? image, UserType type) async {
+    sc.setLoading(true);
     String? imageUrl;
     String userId = const Uuid().v4();
-    // if (image != null) {
-    //   imageUrl = await uploadImageIPFS(image, userId);
-    // }
+    if (image != null) {
+      imageUrl = await DatabaseManager().uploadImage(
+        image,
+        userId,
+      );
+    }
 
     //replace id with wallet address
     User toAdd = User(
-        id: userId,
-        pseudonym: pseudonym,
-        fullName: fullName,
-        bio: '',
-        imageUrl: imageUrl,
-        books: [],
-        spaces: [],
-        type: type);
-    sc.currentUser.value = toAdd;
+        id: userId, pseudonym: pseudonym, fullName: fullName, imageUrl: imageUrl, books: [], spaces: [], type: type);
 
+    await DatabaseManager().saveUser(toAdd);
+    sc.setLoading(false);
     Get.to(() => NavBar());
     //add user json to ipfs. For now, store locally
   }
@@ -44,18 +43,4 @@ class Functions {
     }
   }
 
-  Future<String> uploadImageIPFS(File image, String userId) async {
-    IpfsClient ipfsClient = IpfsClient(url: 'http://10.0.2.2:8000');
-    String response1 = await ipfsClient.mkdir(dir: 'profile_images');
-    print(response1);
-
-    var response =
-        await ipfsClient.write(dir: 'profile_images/sample.png', filePath: image.path, fileName: "sample.png");
-
-    print(response);
-    //
-    // Response response2 = await ipfsClient.ls(dir: 'profile_images');
-    // print(response2.body);
-    return '';
-  }
 }

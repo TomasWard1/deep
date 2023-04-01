@@ -7,7 +7,6 @@ class User {
   final String id;
   final String fullName;
   final String pseudonym;
-  final String bio;
   final String? imageUrl;
   final List<Book>? books;
   final List<Space> spaces;
@@ -18,10 +17,28 @@ class User {
       required this.pseudonym,
       required this.fullName,
       required this.type,
-      required this.bio,
       required this.imageUrl,
       required this.books,
       required this.spaces});
+
+  toJson() => {
+        'id': id,
+        'name': fullName,
+        'pseudonym': pseudonym,
+        'image_url': imageUrl,
+        'type': type.toString(),
+      };
+
+  static User fromMap(Map map, String key) {
+    return User(
+        id: key,
+        pseudonym: map['pseudonym'] as String,
+        fullName: map['name'] as String,
+        type: UserType.values.singleWhere((element) => element.toString() == map['type'] as String),
+        imageUrl: map['image_url'],
+        books: [],
+        spaces: []);
+  }
 
   //author getters
   int totalLikesForSpace(Space s) {

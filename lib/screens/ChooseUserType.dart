@@ -42,6 +42,11 @@ class ChooseUserType extends GetView<SpacesController> {
                   ],
                 ),
                 const Spacer(),
+                Obx(
+                  () => Visibility(
+                      visible: controller.loading.value, child: CircularProgressIndicator(color: dw.accentColor)),
+                ),
+                const Spacer(),
               ],
             ),
           ),

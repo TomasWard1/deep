@@ -350,6 +350,7 @@ class DeepWidgets {
         }
         return null;
       },
+      controller: c,
       textAlign: TextAlign.center,
       style: GoogleFonts.nunito(
           textStyle:

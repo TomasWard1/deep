@@ -2,11 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/controllers/SpacesController.dart';
+import 'package:hackitba/screens/NavBar.dart';
 import 'package:hackitba/screens/UserForm.dart';
 
 import 'firebase_options.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -15,6 +17,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
+  SpacesController get sc => Get.find<SpacesController>();
+
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -25,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: UserForm(),
+      home: (sc.uidForLogin.isNotEmpty) ? NavBar() : UserForm(),
     );
   }
 }
