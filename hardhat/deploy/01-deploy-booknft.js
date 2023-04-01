@@ -20,7 +20,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
         args: args,
         waitConfirmations: waitBlockConfirmations,
     });
-    log("----------------------------------------------------");
+    log("---------------------------------------");
 };
 
 module.exports.tags = ["all", "booknft"];

@@ -16,7 +16,7 @@ import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 error PriceMustBeAboveZero();
 error UnitsMustBeAboveZero();
-error IncorrectRange(
+error UnitsNotInRange(
     address nftAddress,
     uint256 tokenId,
     uint256 unitsListed,
@@ -62,6 +62,8 @@ contract Space is ReentrancyGuard {
         uint256 units,
         uint256 unitPrice
     );
+
+    event BookRemoved(address indexed nftAddress, uint256 indexed tokenId);
 
     event BookLiked(address nftAddress, uint256 tokenId);
 
@@ -169,7 +171,7 @@ contract Space is ReentrancyGuard {
 
         // 0 < units funded <= listedItem.units
         if ((units > listedItem.units) || (units <= 0)) {
-            revert IncorrectRange(nftAddress, tokenId, listedItem.units, units);
+            revert UnitsNotInRange(nftAddress, tokenId, listedItem.units, units);
         }
 
         // check if value sent is equal to units * unitPrice
@@ -185,10 +187,11 @@ contract Space is ReentrancyGuard {
         // Update contributor
         s_contributors[msg.sender] += msg.value;
 
-        // Re-asign value to listItem
+        // delete if its fully funded
         listedItem = s_listings[nftAddress][tokenId];
         if (listedItem.units == 0) {
             delete (s_listings[nftAddress][tokenId]);
+            emit BookRemoved(nftAddress, tokenId);
         }
 
         emit BookFunded(msg.sender, nftAddress, tokenId, listedItem.unitPrice, units);
@@ -259,6 +262,10 @@ contract Space is ReentrancyGuard {
         uint256 tokenId
     ) external view returns (uint256) {
         return s_proceeds[author][nftAddress][tokenId];
+    }
+
+    function getContributorAmountFunded(address contributor) external view returns (uint256) {
+        return s_contributors[contributor];
     }
 
     function getContributors(

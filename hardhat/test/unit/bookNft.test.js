@@ -4,39 +4,39 @@ const { developmentChains } = require("../../helper-hardhat-config");
 
 !developmentChains.includes(network.name)
     ? describe.skip
-    : describe("ProfileNft test", function () {
-          let profileNft, deployer;
+    : describe("bookNft test", function () {
+          let bookNft, deployer;
           beforeEach(async function () {
               accounts = await ethers.getSigners();
               deployer = accounts[0];
-              await deployments.fixture(["profilenft"]);
-              profileNft = await ethers.getContract("ProfileNft", deployer);
+              await deployments.fixture(["booknft"]);
+              bookNft = await ethers.getContract("BookNft", deployer);
           });
           describe("Constructor", () => {
               it("Initializes the NFT Correctly", async () => {
-                  const name = await profileNft.name();
-                  const symbol = await profileNft.symbol();
-                  const tokenCounter = await profileNft.getTokenCounter();
-                  assert.equal(name, "ProfileNft");
-                  assert.equal(symbol, "PNFT");
+                  const name = await bookNft.name();
+                  const symbol = await bookNft.symbol();
+                  const tokenCounter = await bookNft.getTokenCounter();
+                  assert.equal(name, "BookNft");
+                  assert.equal(symbol, "BNFT");
                   assert.equal(tokenCounter.toString(), "0");
               });
           });
           describe("Mint NFT", () => {
               beforeEach(async () => {
-                  const txResponse = await profileNft.mintNft("hola");
+                  const txResponse = await bookNft.mintNft("hola");
                   await txResponse.wait(1);
               });
               it("Allows users to mint an NFT, and updates appropriately", async () => {
-                  const tokenURI = await profileNft.tokenURI(0);
-                  const tokenCounter = await profileNft.getTokenCounter();
+                  const tokenURI = await bookNft.tokenURI(0);
+                  const tokenCounter = await bookNft.getTokenCounter();
                   assert.equal(tokenURI, "data:application/json;base64,hola");
                   assert.equal(tokenCounter.toString(), "1");
               });
               it("Show the correct balance and owner of an NFT", async () => {
-                  const owner = await profileNft.ownerOf("0");
+                  const owner = await bookNft.ownerOf("0");
                   const deployerAddress = deployer.address;
-                  const deployerBalance = await profileNft.balanceOf(deployerAddress);
+                  const deployerBalance = await bookNft.balanceOf(deployerAddress);
 
                   assert.equal(deployerBalance.toString(), "1");
                   assert.equal(owner, deployerAddress);
@@ -44,12 +44,12 @@ const { developmentChains } = require("../../helper-hardhat-config");
           });
           describe("Modify Token URI", () => {
               beforeEach(async () => {
-                  const txResponse = await profileNft.mintNft("hola");
+                  const txResponse = await bookNft.mintNft("hola");
                   await txResponse.wait(1);
               });
               it("Allows users to modify Token URI", async () => {
-                  await profileNft.modifyTokenURI(0, "chau");
-                  const tokenURI = await profileNft.tokenURI(0);
+                  await bookNft.modifyTokenURI(0, "chau");
+                  const tokenURI = await bookNft.tokenURI(0);
                   assert.equal(tokenURI, "data:application/json;base64,chau");
               });
           });
