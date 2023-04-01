@@ -31,7 +31,25 @@ class SpaceDetail extends GetView<SpacesController> {
                     Expanded(child: Hero(tag: id, child: DeepWidgets().titleText(space.name, DeepWidgets().textColor))),
                   ],
                 ),
-                DeepWidgets().topContributors(space)
+                Expanded(
+                  child: SingleChildScrollView(
+                    physics: const BouncingScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15.0),
+                          child: DeepWidgets().topContributors(space),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10.0),
+                          child: DeepWidgets().topAuthors(space),
+                        ),
+
+                      ],
+                    ),
+                  ),
+                )
+
               ],
             ),
           ),

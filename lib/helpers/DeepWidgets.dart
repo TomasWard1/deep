@@ -94,17 +94,17 @@ class DeepWidgets {
             String u = users[i];
 
             if (i == 3) {
-              return userCircle('+${users.length - 3}', color);
+              return userCircle('+${users.length - 3}', color, true);
             } else {
-              return userCircle(u.toUpperCase(), color);
+              return userCircle(u.toUpperCase(), color, true);
             }
           }),
     );
   }
 
-  Widget userCircle(String text, Color color) {
+  Widget userCircle(String text, Color color, bool withOffset) {
     return Align(
-      widthFactor: .6,
+      widthFactor: (withOffset) ? .6 : null,
       child: Container(
         decoration: BoxDecoration(border: Border.all(color: accentColor, width: 2), shape: BoxShape.circle),
         child: CircleAvatar(
@@ -132,14 +132,13 @@ class DeepWidgets {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       children: [
         ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
             itemCount: s.contributors.length,
             itemBuilder: (c, i) {
               String username = s.contributors.keys.elementAt(i);
-              // int totalBooks = s.contributors[i]?.totalBooks;
-              // int totalAmount = s.contributors[i]?.totalAmount;
-              int totalBooks = 3;
-              int totalAmount = 10;
+              int totalBooks = s.contributors[username]!.totalBooks;
+              int totalAmount = s.contributors[username]!.totalAmount;
               return contributorListTile(username, totalBooks, totalAmount);
             })
       ],
@@ -148,22 +147,65 @@ class DeepWidgets {
 
   Widget contributorListTile(String username, int totalBooks, int totalAmount) {
     return Container(
+      padding: const EdgeInsets.only(left: 10, right: 15, top: 10, bottom: 10),
       child: Row(
         children: [
+          userCircle(username.toUpperCase(), textColor, false),
           Expanded(
-            child: bodyText(username, textColor),
-          ),
-          Icon(Icons.book_outlined, color: textColor),
-          bodyText(totalBooks.toString(), textColor),
-          Icon(Icons.attach_money, color: textColor),
+              child: Padding(
+            padding: const EdgeInsets.only(left: 10.0),
+            child: bodyText('User', textColor),
+          )),
           bodyText("$totalAmount ETH", textColor)
         ],
       ),
     );
   }
 
-  Widget topAuthors() {
-    return ExpansionTile(title: Text('f'));
+  Widget authorListTile(String username, int totalBooks, int totalAmount) {
+    return Container(
+      padding: const EdgeInsets.only(left: 10, right: 15, top: 10, bottom: 10),
+      child: Row(
+        children: [
+          userCircle(username.toUpperCase(), textColor, false),
+          Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10.0),
+                child: bodyText('Author', textColor),
+              )),
+          Padding(padding: const EdgeInsets.only(right: 5.0),
+          child: Icon(Icons.favorite,color: textColor,size: 20,)),
+          bodyText('100', textColor)
+        ],
+      ),
+    );
+  }
+
+  Widget topAuthors(Space s) {
+    return ExpansionTile(
+      leading: Icon(Icons.history_edu_outlined, color: textColor),
+      title: const Text('Top Authors'),
+      textColor: textColor,
+      iconColor: textColor,
+      collapsedIconColor: textColor,
+      collapsedTextColor: textColor,
+      collapsedBackgroundColor: accentColor,
+      backgroundColor: accentColor,
+      collapsedShape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      children: [
+        ListView.builder(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: s.contributors.length,
+            itemBuilder: (c, i) {
+              String username = s.contributors.keys.elementAt(i);
+              int totalBooks = s.contributors[username]!.totalBooks;
+              int totalAmount = s.contributors[username]!.totalAmount;
+              return authorListTile(username, totalBooks, totalAmount);
+            })
+      ],
+    );
   }
 
   Widget bookList() {
