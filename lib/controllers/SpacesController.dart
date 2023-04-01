@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hackitba/classes/BookClass.dart';
 import 'package:hackitba/classes/ContributionClass.dart';
 
 import '../classes/SpaceClass.dart';
@@ -37,7 +38,104 @@ class SpacesController extends GetxController {
           'c': Contribution(totalBooks: 5, totalAmount: 233),
           'd': Contribution(totalBooks: 3, totalAmount: 120),
           'e': Contribution(totalBooks: 1, totalAmount: 10)
-        });
+        },
+        books: []);
+
+    misterio.books.add(Book(
+        id: '1',
+        title: 'El Silencio de la Ciudad',
+        description: 'Una ciudad queda en silencio después de una serie de extrañas desapariciones',
+        authorId: '',
+        space: misterio,
+        likes: 100,
+        coverImageUrl: ''));
+
+    misterio.books.add(Book(
+        id: '1',
+        title: 'La Habitación Vacía',
+        description: 'Una mujer alquila una habitación en una casa encantada y comienza a sospechar que no está sola',
+        authorId: '',
+        space: misterio,
+        likes: 100,
+        coverImageUrl: ''));
+
+    misterio.books.add(Book(
+        id: '1',
+        title: 'La Puerta Abierta',
+        description:
+            'Una mujer regresa a su hogar después de estar ausente durante años y descubre que la puerta estaba abierta para ella',
+        authorId: '',
+        space: misterio,
+        likes: 100,
+        coverImageUrl: ''));
+
+    misterio.books.add(Book(
+        id: '1',
+        title: 'La Última Noche',
+        description:
+            'Una mujer desaparece después de una fiesta, y su esposo debe descubrir la verdad antes de que sea demasiado tarde',
+        authorId: '',
+        space: misterio,
+        likes: 100,
+        coverImageUrl: ''));
+
+    misterio.books.add(Book(
+        id: '1',
+        title: 'El Pasado Oculto',
+        description:
+            'Un hombre descubre secretos oscuros sobre su pasado mientras investiga la misteriosa muerte de su padre',
+        authorId: '',
+        space: misterio,
+        likes: 100,
+        coverImageUrl: ''));
+
+    misterio.books.add(Book(
+        id: '1',
+        title: 'La Sombra Negra',
+        description:
+            ' Un detective debe perseguir a un asesino en serie conocido como "La Sombra Negra" antes de que vuelva a atacar',
+        authorId: '',
+        space: misterio,
+        likes: 100,
+        coverImageUrl: ''));
+
+    misterio.books.add(Book(
+        id: '1',
+        title: 'El Secreto Mortal',
+        description:
+            'Un grupo de amigos descubren un oscuro secreto mientras investigan la extraña muerte de uno de ellos',
+        authorId: '',
+        space: misterio,
+        likes: 100,
+        coverImageUrl: ''));
+
+    misterio.books.add(Book(
+        id: '1',
+        title: 'El Misterio del Lago',
+        description: 'Un cuerpo es encontrado en un lago y una detective debe descubrir quién lo mató y por qué',
+        authorId: '',
+        space: misterio,
+        likes: 100,
+        coverImageUrl: ''));
+
+    misterio.books.add(Book(
+        id: '1',
+        title: 'El Círculo Oscuro',
+        description: 'Una joven se adentra en un círculo secreto de magia negra y comienza a temer por su vida',
+        authorId: '',
+        space: misterio,
+        likes: 100,
+        coverImageUrl: ''));
+
+    misterio.books.add(Book(
+        id: '1',
+        title: 'El Cuarto Cerrado',
+        description:
+            'Un asesinato ocurre en una habitación cerrada por dentro, y un detective debe descubrir cómo el asesino lo hizo.',
+        authorId: '',
+        space: misterio,
+        likes: 100,
+        coverImageUrl: ''));
 
     Space drama = Space(
         name: 'Drama',
@@ -46,7 +144,8 @@ class SpacesController extends GetxController {
         id: '2',
         imageUrl: '',
         participantIds: ['a', 'b', 'c', 'd', 'e', 'f', 'g'],
-        contributors: {});
+        contributors: {},
+        books: []);
 
     Space fantasia = Space(
         name: 'Fantasía',
@@ -55,7 +154,8 @@ class SpacesController extends GetxController {
         id: '3',
         imageUrl: '',
         participantIds: ['e', 'f', 'g', 'h', 'i'],
-        contributors: {});
+        contributors: {},
+        books: []);
 
     Space thriller = Space(
         name: 'Thriller',
@@ -64,7 +164,8 @@ class SpacesController extends GetxController {
         id: '4',
         imageUrl: '',
         participantIds: ['a', 'd', 'e'],
-        contributors: {});
+        contributors: {},
+        books: []);
 
     Space cuentos = Space(
         name: 'Cuentos',
@@ -73,7 +174,8 @@ class SpacesController extends GetxController {
         id: '5',
         imageUrl: '',
         participantIds: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i'],
-        contributors: {});
+        contributors: {},
+        books: []);
 
     Space historia = Space(
         name: 'Historia',
@@ -82,7 +184,8 @@ class SpacesController extends GetxController {
         id: '6',
         imageUrl: '',
         participantIds: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'],
-        contributors: {});
+        contributors: {},
+        books: []);
 
     spaces.value = [misterio, drama, fantasia, thriller, cuentos, historia];
     spaces.refresh();

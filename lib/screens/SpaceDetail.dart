@@ -44,12 +44,15 @@ class SpaceDetail extends GetView<SpacesController> {
                           padding: const EdgeInsets.only(top: 10.0),
                           child: DeepWidgets().topAuthors(space),
                         ),
-
+                        Container(
+                            margin: const EdgeInsets.only(top: 20, left: 5,bottom: 10),
+                            width: double.infinity,
+                            child: DeepWidgets().headingText('Books', DeepWidgets().textColor)),
+                        DeepWidgets().bookList(space)
                       ],
                     ),
                   ),
                 )
-
               ],
             ),
           ),

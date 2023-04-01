@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hackitba/screens/SpaceDetail.dart';
 
+import '../classes/BookClass.dart';
 import '../classes/SpaceClass.dart';
 import 'SnackbarManager.dart';
 
@@ -170,11 +171,16 @@ class DeepWidgets {
           userCircle(username.toUpperCase(), textColor, false),
           Expanded(
               child: Padding(
-                padding: const EdgeInsets.only(left: 10.0),
-                child: bodyText('Author', textColor),
+            padding: const EdgeInsets.only(left: 10.0),
+            child: bodyText('Author', textColor),
+          )),
+          Padding(
+              padding: const EdgeInsets.only(right: 5.0),
+              child: Icon(
+                Icons.favorite,
+                color: textColor,
+                size: 20,
               )),
-          Padding(padding: const EdgeInsets.only(right: 5.0),
-          child: Icon(Icons.favorite,color: textColor,size: 20,)),
           bodyText('100', textColor)
         ],
       ),
@@ -208,7 +214,34 @@ class DeepWidgets {
     );
   }
 
-  Widget bookList() {
-    return ExpansionTile(title: Text('f'));
+  Widget bookList(Space s) {
+    return ListView.builder(
+      primary: false,
+        physics: const NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        itemCount: s.books.length,
+        itemBuilder: (c, i) {
+          Book b = s.books[i];
+          return Container(
+            margin: const EdgeInsets.only(bottom:10),
+              child: ListTile(
+            contentPadding: const EdgeInsets.only(left: 5, right: 5),
+            minLeadingWidth: 10,
+            leading: Icon(Icons.bookmark_border, color: textColor),
+            title:Text(
+              b.title,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: textColor)),
+            ),
+            subtitle:Text(
+              b.description,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: textColor)),
+            ),
+            trailing: Icon(Icons.arrow_right, color: textColor),
+          ));
+        });
   }
 }
