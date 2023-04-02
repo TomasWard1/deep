@@ -11,6 +11,12 @@ El lector interactúa con ellos de la siguiente manera:
 1. Financia a una cierta cantidad de unidades (horas, ejemplares) asociadas al bookNft que desea financiar. ACLARACIÓN: el bookNft es usado para referenciar la data del libro on-chain únicamente, no funciona como token transaccionable.
 2. Likea un libro listado en el space.
 
+### Deployment en Sepolia Testnet
+
+```BookNft.sol``` : https://sepolia.etherscan.io/address/0xF34F226BFFCadF0CB92f59514eDe055ea97caE3C
+
+```Space.sol```   : https://sepolia.etherscan.io/address/0x51FF5920E31BD0e2944d4DBC18DC413d779164B0
+
 ## Librerías y recursos :books:
 
 - [Hardhat](https://github.com/nomiclabs/hardhat) : deploy - test - local network
