@@ -13,10 +13,18 @@ import '../classes/SpaceClass.dart';
 import '../classes/UserClass.dart';
 import '../helpers/Web3Manager.dart';
 
+enum UnitType { Horas, Ejemplares }
+
 class SpacesController extends GetxController {
   RxList<Space> spaces = RxList<Space>([]);
 
-  // final Rxn<SessionStatus> sessionGlobal = Rxn<SessionStatus>(null);
+  //variables de detalle de publicar
+  Rx<UnitType> publishingUnitType = Rx<UnitType>(UnitType.Ejemplares);
+  RxInt typeIndex = RxInt(0);
+  final TextEditingController precioUnitC = TextEditingController();
+  final TextEditingController cantidadUnitC = TextEditingController();
+
+//otras
   final RxString uriGlobal = RxString('');
   RxInt navIndex = 0.obs;
   RxInt stepIndex = 0.obs;

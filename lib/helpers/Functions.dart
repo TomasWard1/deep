@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:hackitba/helpers/DatabaseManager.dart';
+import 'package:hackitba/helpers/DialogManager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
 
@@ -101,12 +102,15 @@ class Functions {
     String encoded = toMint.encodeJsonBas64(j);
     try {
       await wc.mintBookNft(encoded);
+
     } catch (e, s) {
       print(e);
       print(s);
       sc.setLoading(false);
+      Get.back();
+      DialogManager().error('Error minting NFT');
     }
 
-    sc.setLoading(false);
+
   }
 }

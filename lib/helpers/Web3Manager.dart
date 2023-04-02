@@ -4,6 +4,8 @@ import 'package:hackitba/controllers/SpacesController.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
+import 'DialogManager.dart';
+
 class Web3Controller extends GetxController {
   SpacesController get sc => Get.find<SpacesController>();
 
@@ -35,13 +37,13 @@ class Web3Controller extends GetxController {
   late DeployedContract _spaceContract;
 
   //functions and vars from bookNFTContract
-  late DeployedContract _bookNFTContract;
+  late DeployedContract bookNFTContract;
   late ContractFunction _mintNft;
   late ContractFunction _modifyTokenURI;
   late ContractFunction _getTokenCounter;
 
   //events
-  late ContractEvent _nftMinted;
+  late ContractEvent _nftMintedEvent;
 
   EthereumAddress get myEthAddress => EthereumAddress.fromHex(myAddress);
 
@@ -53,6 +55,7 @@ class Web3Controller extends GetxController {
     ethClient = Web3Client('https://sepolia.infura.io/v3/cee3051950074064af65e2244b0cc0b2', httpClient);
     _spaceContract = await loadSpaceContract();
     _bookNFTContract = await loadBookNFTContract();
+    listenToEvents();
   }
 
   Future<DeployedContract> loadSpaceContract() async {
@@ -91,7 +94,7 @@ class Web3Controller extends GetxController {
     _mintNft = contract.function("mintNft");
     _modifyTokenURI = contract.function("modifyTokenURI");
     _getTokenCounter = contract.function("getTokenCounter");
-    _nftMinted = contract.event('NftMinted');
+    _nftMintedEvent = contract.event('NftMinted');
 
     return contract;
   }
@@ -106,17 +109,33 @@ class Web3Controller extends GetxController {
         uint256 tokenId,
         uint256 units,
         uint256 unitPrice
-    //  */
-    // String response = await ethClient.sendTransaction(
-    //   _credentials,
-    //   Transaction.callContract(
-    //     contract: _spaceContract,
-    //     function: _listItem,
-    //     parameters: [nftAddress, tokenId, units, unitPrice],
-    //   ),
-    // );
+     */
+    int chainId = (await ethClient.getChainId()).toInt();
+    String response = await ethClient.sendTransaction(
+      _credentials,
+      chainId: chainId,
+      Transaction.callContract(
+        contract: _spaceContract,
+        function: _listItem,
+        parameters: [nftAddress, tokenId, units, unitPrice],
+      ),
+    );
+    print(response);
+  }
 
-    //print(response);
+  listenToEvents() {
+    //nft minted
+    ethClient.events(FilterOptions.events(contract: bookNFTContract, event: _nftMintedEvent)).take(1).listen((event) {
+      final decoded = _nftMintedEvent.decodeResults(event.topics ?? [], event.data ?? '');
+
+      print(event);
+      print(decoded);
+
+      int tokenId = decoded[0] as int;
+      sc.setLoading(false);
+      Get.back();
+      DialogManager().askListingDetails(tokenId);
+    });
   }
 
   mintBookNft(String encoded) async {
@@ -124,19 +143,17 @@ class Web3Controller extends GetxController {
     string memory tokenURI
      */
 
-    print(_credentials.address.hex);
     int chainId = (await ethClient.getChainId()).toInt();
-    print(chainId);
+
     String response = await ethClient.sendTransaction(
       _credentials,
       chainId: chainId,
       Transaction.callContract(
-        contract: _bookNFTContract,
+        contract: bookNFTContract,
         function: _mintNft,
         parameters: [encoded],
       ),
     );
-    print('finished minting');
     print(response);
 
     //getNFT address

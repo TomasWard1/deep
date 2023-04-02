@@ -1,17 +1,20 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/helpers/DeepWidgets.dart';
-import 'package:hackitba/helpers/Web3Manager.dart';
 
 import '../classes/BookClass.dart';
 import '../classes/SpaceClass.dart';
 import '../controllers/SpacesController.dart';
 import 'Functions.dart';
+import 'Web3Manager.dart';
 
 class DialogManager {
   final DeepWidgets dw = DeepWidgets();
 
   SpacesController get sc => Get.find<SpacesController>();
+
+  Web3Controller get wc => Get.find<Web3Controller>();
 
   Future success(String title) async {
     await Get.closeCurrentSnackbar();
@@ -123,7 +126,8 @@ class DialogManager {
                     ),
                   ),
                   if (sc.loading.value) ...[
-                    CircularProgressIndicator(color: dw.accentColor)
+                    CircularProgressIndicator(color: dw.accentColor),
+                    dw.bodyText('Cargando a blockchain...', dw.textColor, 1)
                   ] else ...[
                     SizedBox(
                         width: double.infinity,
@@ -160,5 +164,113 @@ class DialogManager {
         ),
       ),
     ));
+  }
+
+  void askListingDetails(int tokenId) {
+    Get.bottomSheet(
+        GestureDetector(
+          onTap: () {
+            Get.focusScope?.unfocus();
+          },
+          child: Obx(
+            () => Container(
+              decoration: BoxDecoration(
+                  color: dw.bgColor,
+                  borderRadius: const BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20))),
+              padding: const EdgeInsets.all(15.0),
+              child: Column(
+                children: [
+                  Divider(
+                    height: 5,
+                    indent: Get.size.width * 0.4,
+                    endIndent: Get.size.width * 0.4,
+                    color: dw.accentColor,
+                    thickness: 4,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 20.0, bottom: 10),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: 5),
+                          child: Icon(Icons.list, color: dw.textColor, size: 40),
+                        ),
+                        dw.titleText('Detalles', dw.textColor, TextAlign.left),
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Obx(() {
+                        bool esEjemplares = sc.typeIndex.value == 0;
+
+                        return Column(children: [
+                          SizedBox(
+                              width: double.infinity,
+                              child: CupertinoSlidingSegmentedControl<int>(
+                                backgroundColor: dw.accentColor,
+                                thumbColor: dw.textColor,
+                                padding: const EdgeInsets.all(8),
+                                groupValue: sc.typeIndex.value,
+                                children: {
+                                  0: Container(
+                                    child: Text(
+                                      'Ejemplares',
+                                      style: TextStyle(fontSize: 17, color: (esEjemplares) ? dw.bgColor : dw.textColor),
+                                    ),
+                                  ),
+                                  1: Container(
+                                    child: Text(
+                                      'Horas',
+                                      style: TextStyle(fontSize: 17, color: (esEjemplares) ? dw.textColor : dw.bgColor),
+                                    ),
+                                  ),
+                                },
+                                onValueChanged: (value) {
+                                  sc.typeIndex.value = value!;
+                                },
+                              )),
+                          Container(
+                              margin: const EdgeInsets.only(top: 30),
+                              width: double.infinity,
+                              child: dw.headingText(
+                                  (esEjemplares) ? 'Precio por ejemplar' : 'Precio por hora (ETH)', dw.textColor)),
+                          dw.textFormField(sc.precioUnitC, 'Ingresar...', false, 16, TextAlign.left, 1),
+                          Container(
+                              margin: const EdgeInsets.only(top: 20),
+                              width: double.infinity,
+                              child: dw.headingText(
+                                  (esEjemplares) ? 'Cantidad de ejemplares' : 'Cantidad de horas', dw.textColor)),
+                          dw.textFormField(sc.cantidadUnitC, 'Ingresar...', false, 16, TextAlign.left, 1)
+                        ]);
+                      }),
+                    ),
+                  ),
+                  if (sc.loading.value) ...[
+                    CircularProgressIndicator(color: dw.accentColor),
+                    dw.bodyText('Cargando a blockchain...', dw.textColor, 1)
+                  ] else ...[
+                    SizedBox(
+                        width: double.infinity,
+                        child: dw.actionButton('Terminar', Icons.done, () async {
+                          if (sc.cantidadUnitC.text.isNotEmpty && sc.precioUnitC.text.isNotEmpty) {
+                            sc.setLoading(true);
+                            int units = int.parse(sc.cantidadUnitC.text);
+                            int unitPrice = int.parse(sc.precioUnitC.text);
+                            await wc.listItem(wc.bookNFTContract.address.hex, tokenId, units, unitPrice);
+                            sc.setLoading(false);
+                          } else {
+                            error('Completar todo');
+                          }
+                        }))
+                  ]
+                ],
+              ),
+            ),
+          ),
+        ),
+        isScrollControlled: false,
+        ignoreSafeArea: false);
   }
 }
