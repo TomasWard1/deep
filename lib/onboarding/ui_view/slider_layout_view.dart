@@ -9,6 +9,7 @@ import 'package:get/get.dart';
 import '../../controllers/SpacesController.dart';
 import '../../helpers/DeepWidgets.dart';
 import '../../helpers/Functions.dart';
+import '../../helpers/Web3Manager.dart';
 import '../model/slider.dart';
 import '../widgets/slide_dots.dart';
 import '../widgets/slide_items/slide_item.dart';
@@ -118,7 +119,8 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                           margin: const EdgeInsets.only(bottom: 20),
                           width: double.infinity,
                           child: dw.actionButton('Conectar Wallet', Icons.wallet, () async {
-                            Functions().loginWithMetamask(false);
+                           // Get.find<Web3Controller>().loginWithMetamask();
+                            // Functions().loginWithMetamask(false);
                           }))
                   ],
                 )

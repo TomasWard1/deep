@@ -21,7 +21,7 @@ class SpaceDetail extends GetView<SpacesController> {
             ? FloatingActionButton.extended(
                 backgroundColor: DeepWidgets().accentColor,
                 onPressed: () {
-                  DialogManager().listItem();
+                  DialogManager().listItem(space);
                 },
                 label: Text('Publicar', style: TextStyle(color: DeepWidgets().textColor)),
                 icon: Icon(Icons.bookmark_add_outlined, color: DeepWidgets().textColor))

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/controllers/SpacesController.dart';
 import 'package:hackitba/helpers/DeepWidgets.dart';
+import 'package:hackitba/helpers/Web3Manager.dart';
 import 'package:hackitba/onboarding/screens/landing_page.dart';
 import 'package:hackitba/screens/NavBar.dart';
 import 'package:hackitba/screens/UserForm.dart';
@@ -14,7 +15,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
+  Get.put(Web3Controller());
   Get.put(SpacesController());
+
   runApp(const MyApp());
 }
 

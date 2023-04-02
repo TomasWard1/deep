@@ -4,16 +4,14 @@ import 'package:hackitba/controllers/SpacesController.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
-class Web3Manager {
-  //general vars
-  String sepoliaRpcUrl = 'https://eth-sepolia.g.alchemy.com/v2/aIn5jBhiYhnOdKOqlf0DLtM3cDLvIoX0';
-
+class Web3Controller extends GetxController {
   SpacesController get sc => Get.find<SpacesController>();
 
   //web3 vars
   late Client httpClient;
   late Web3Client ethClient;
-  late Credentials _credentials; //creds of the deployer of the contract
+
+  late Credentials _credentials;
 
   //functions and vars from spaceContract
   late ContractFunction _listItem;
@@ -25,6 +23,13 @@ class Web3Manager {
   late ContractFunction _getProceeds;
   late ContractFunction _getContributorAmountFunded;
   late ContractFunction _getContributors;
+  //events
+  late ContractFunction _itemListedEvent;
+  late ContractFunction _bookFundedEvent;
+  late ContractFunction _bookRemovedEvent;
+  late ContractFunction _bookLiked;
+  late ContractFunction _bookDisliked;
+  //contract
   late DeployedContract _spaceContract;
 
   //functions and vars from bookNFTContract
@@ -35,8 +40,8 @@ class Web3Manager {
 
   EthereumAddress get myEthAddress => EthereumAddress.fromHex(myAddress);
 
-  //require address!!!!
-  String get myAddress => sc.sessionGlobal.value!.accounts.first;
+  String get myAddress => sc.accountId;
+  final String _testPrivateKey = '59bb2d62bc891c38b4c9f4eac4433c49583d0343184aa7bf198047e2ed28b099';
 
   init() async {
     httpClient = Client();
@@ -74,12 +79,13 @@ class Web3Manager {
     _mintNft = contract.function("mintNft");
     _modifyTokenURI = contract.function("modifyTokenURI");
     _getTokenCounter = contract.function("getTokenCounter");
+    _itemListed =
 
     return contract;
   }
 
   getCredentials() {
-    _credentials = EthPrivateKey.fromHex(myAddress);
+    _credentials = EthPrivateKey.fromHex(_testPrivateKey);
   }
 
   listItem(String nftAddress, int tokenId, int units, int unitPrice) async {
@@ -88,31 +94,37 @@ class Web3Manager {
         uint256 tokenId,
         uint256 units,
         uint256 unitPrice
-     */
-    String response = await ethClient.sendTransaction(
-      _credentials,
-      Transaction.callContract(
-        contract: _spaceContract,
-        function: _listItem,
-        parameters: [nftAddress, tokenId, units, unitPrice],
-      ),
-    );
+    //  */
+    // String response = await ethClient.sendTransaction(
+    //   _credentials,
+    //   Transaction.callContract(
+    //     contract: _spaceContract,
+    //     function: _listItem,
+    //     parameters: [nftAddress, tokenId, units, unitPrice],
+    //   ),
+    // );
 
-    print(response);
+    //print(response);
   }
 
   mintBookNft(String encoded) async {
     /*
     string memory tokenURI
      */
+
+    print(_credentials.address.hex);
+    int chainId = (await ethClient.getChainId()).toInt();
+    print(chainId);
     String response = await ethClient.sendTransaction(
       _credentials,
+      chainId: chainId,
       Transaction.callContract(
         contract: _bookNFTContract,
         function: _mintNft,
         parameters: [encoded],
       ),
     );
+    print('finished minting');
     print(response);
 
     //getNFT address

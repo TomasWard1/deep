@@ -6,14 +6,17 @@ import 'package:hackitba/classes/BookClass.dart';
 import 'package:hackitba/classes/ContributionClass.dart';
 import 'package:hackitba/helpers/DatabaseManager.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:walletconnect_dart/walletconnect_dart.dart';
+
+// import 'package:walletconnect_dart/walletconnect_dart.dart';
 
 import '../classes/SpaceClass.dart';
 import '../classes/UserClass.dart';
+import '../helpers/Web3Manager.dart';
 
 class SpacesController extends GetxController {
   RxList<Space> spaces = RxList<Space>([]);
-  final Rxn<SessionStatus> sessionGlobal = Rxn<SessionStatus>(null);
+
+  // final Rxn<SessionStatus> sessionGlobal = Rxn<SessionStatus>(null);
   final RxString uriGlobal = RxString('');
   RxInt navIndex = 0.obs;
   RxInt stepIndex = 0.obs;
@@ -26,6 +29,8 @@ class SpacesController extends GetxController {
   RxList<User> allUsers = RxList<User>([]);
   String uidForLogin = '38c501a7-8e47-4da9-b3fe-dae5575ed9f1';
 
+  Web3Controller get wc => Get.find<Web3Controller>();
+
   //variables para publicar libro
   TextEditingController titleC = TextEditingController();
   TextEditingController descC = TextEditingController();
@@ -35,15 +40,14 @@ class SpacesController extends GetxController {
   void onInit() async {
     addTestSpaces();
     DatabaseManager().getAllUsers();
-    //setOnboarding(false);
+    await wc.init();
+    //setOnboarding(true);
     super.onInit();
   }
 
   User get currentUser {
     return allUsers.singleWhere((element) => element.id == uidForLogin);
   }
-
-  bool get connectedToWallet => sessionGlobal.value != null;
 
   setLoading(bool value) {
     loading.value = value;

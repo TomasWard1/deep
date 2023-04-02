@@ -364,7 +364,7 @@ class DeepWidgets {
   Widget get profileImageSelector => Obx(
         () => GestureDetector(
           onTap: () async {
-            await Functions().pickImage();
+            await Functions().pickImage(true);
           },
           child: Padding(
             padding: const EdgeInsets.only(bottom: 20),

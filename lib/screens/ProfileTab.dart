@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hackitba/helpers/Web3Manager.dart';
 
 import '../controllers/SpacesController.dart';
 import '../helpers/DeepWidgets.dart';
-import '../helpers/Functions.dart';
 
 class ProfileTab extends GetView<SpacesController> {
   ProfileTab({super.key});
 
   final DeepWidgets dw = DeepWidgets();
+
+  Web3Controller get wc => Get.find<Web3Controller>();
 
   @override
   Widget build(BuildContext context) {
@@ -69,35 +71,23 @@ class ProfileTab extends GetView<SpacesController> {
                                   indent: Get.size.width * 0.2,
                                   height: 40,
                                 ),
-                                if (controller.connectedToWallet) ...[
-                                  dw.bodyText(controller.accountId, dw.textColor, 1),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Row(
-                                      children: [
-                                        const Spacer(),
-                                        Container(
-                                          width: 10,
-                                          height: 10,
-                                          margin: const EdgeInsets.only(right: 10),
-                                          decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              color: (controller.connectedToWallet) ? Colors.green : Colors.red),
-                                        ),
-                                        dw.bodyText(
-                                            (controller.sessionGlobal.value == null)
-                                                ? 'Not Connected'
-                                                : Functions().getNetworkName(controller.sessionGlobal.value?.chainId),
-                                            dw.textColor,
-                                            1),
-                                        const Spacer(),
-                                      ],
-                                    ),
+                                dw.bodyText(controller.accountId, dw.textColor, 1),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: Row(
+                                    children: [
+                                      const Spacer(),
+                                      Container(
+                                        width: 10,
+                                        height: 10,
+                                        margin: const EdgeInsets.only(right: 10),
+                                        decoration: const BoxDecoration(shape: BoxShape.circle, color: Colors.green),
+                                      ),
+                                      dw.bodyText('Sepolia Testnet', dw.textColor, 1),
+                                      const Spacer(),
+                                    ],
                                   ),
-                                ] else ...[
-                                  dw.actionButton(
-                                      'Conectar Wallet', Icons.wallet, () => Functions().loginWithMetamask(true))
-                                ],
+                                ),
                                 Divider(
                                     color: dw.accentColor,
                                     thickness: 1,

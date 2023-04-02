@@ -73,14 +73,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.0.2"
-  cryptography:
-    dependency: transitive
-    description:
-      name: cryptography
-      sha256: df156c5109286340817d21fa7b62f9140f17915077127dd70f8bd7a2a0997a35
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.5.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -384,14 +376,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.6.5"
-  json_annotation:
-    dependency: transitive
-    description:
-      name: json_annotation
-      sha256: c33da08e136c3df0190bd5bbe51ae1df4a7d96e7954d1d7249fea2968a72d317
-      url: "https://pub.dev"
-    source: hosted
-    version: "4.8.0"
   json_rpc_2:
     dependency: transitive
     description:
@@ -741,14 +725,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.0.12+1"
-  walletconnect_dart:
-    dependency: "direct main"
-    description:
-      name: walletconnect_dart
-      sha256: "6d69d3f7ed43b4a111458da0ba078f4ea291ff11328068c9cbf5cab3bd86593f"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.0.11"
   web3dart:
     dependency: "direct main"
     description:

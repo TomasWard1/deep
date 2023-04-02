@@ -31,6 +31,7 @@ class Book {
       };
 
   String encodeJsonBas64(Map j) {
+    print('encoding');
     String encoded = base64.encode(utf8.encode(json.encode(j)));
     return encoded;
   }
