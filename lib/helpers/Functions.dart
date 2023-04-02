@@ -96,7 +96,7 @@ class Functions {
         likes: 0,
         coverImageUrl: imageUrl,
         units: 0,
-        unitPrice: 0);
+        unitPrice: 0, unitType: UnitType.Ejemplares);
 
     Map j = toMint.toJson();
     print(j);

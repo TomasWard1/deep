@@ -16,10 +16,12 @@ class Book {
   final int units;
   final int unitPrice;
   final Space space;
+  final UnitType unitType;
 
   Book(
       {required this.id,
       required this.units,
+      required this.unitType,
       required this.unitPrice,
       required this.title,
       required this.description,
@@ -34,6 +36,7 @@ class Book {
         'description': description,
         'authorId': authorId,
         'space': space.id,
+        'unit_type': unitType.toString(),
         'likes': likes,
         'cover_image_url': coverImageUrl,
         'units': units,
@@ -53,6 +56,9 @@ class Book {
       space: Get.find<SpacesController>().spaces.singleWhere((element) => element.id == map['space'] as String),
       likes: map['likes'] as int,
       coverImageUrl: map['cover_image_url'] as String,
+      unitType: (map['unit_type'] == null)
+          ? UnitType.Ejemplares
+          : UnitType.values.singleWhere((element) => element.toString() == map['unit_type'] as String),
     );
   }
 

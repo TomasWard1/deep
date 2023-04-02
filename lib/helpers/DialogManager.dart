@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/helpers/DeepWidgets.dart';
+import 'package:web3dart/json_rpc.dart';
 
 import '../classes/BookClass.dart';
 import '../classes/SpaceClass.dart';
@@ -285,5 +286,61 @@ class DialogManager {
         ),
         isScrollControlled: false,
         ignoreSafeArea: false);
+  }
+
+  getAmountToFund(Book b) {
+    Get.dialog(Dialog(
+        backgroundColor: dw.bgColor,
+        child: Obx(
+          () => Container(
+            color: dw.bgColor,
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: double.infinity,
+                  child: dw.headingText(
+                      (b.unitType == UnitType.Ejemplares)
+                          ? 'Cuantos ejemplares queres fundear?'
+                          : 'Cuantas horas queres fundear?',
+                      dw.textColor),
+                ),
+                SizedBox(
+                    width: double.infinity,
+                    child: dw.textFormField(sc.fundAmountC, 'Insertar...', false, 19, TextAlign.left, 1)),
+                if (sc.loading.value) ...[
+                  CircularProgressIndicator(color: dw.accentColor),
+                  Padding(
+                    padding: const EdgeInsets.only(top: 10.0, bottom: 10),
+                    child: dw.bodyText('Cargando a blockchain...', dw.textColor, 1),
+                  )
+                ] else ...[
+                  SizedBox(
+                    width: double.infinity,
+                    child: dw.actionButton('Confirmar', Icons.done, () async {
+                      if (sc.fundAmountC.text.isNotEmpty) {
+                        sc.setLoading(true);
+                        try {
+                          int priceInEth = b.unitPrice * int.parse(sc.fundAmountC.text);
+                          print(priceInEth);
+                          await wc.fundBook(
+                              wc.spaceContract.address, int.parse(b.id), int.parse(sc.fundAmountC.text), priceInEth);
+                        } on RPCError catch (e) {
+                          print(e.message);
+                          print(e.data);
+                          print(e.errorCode);
+                        }
+                        sc.setLoading(false);
+                      } else {
+                        error('Insertar cantidad de uniddes');
+                      }
+                    }),
+                  )
+                ]
+              ],
+            ),
+          ),
+        ))).whenComplete(() async {});
   }
 }

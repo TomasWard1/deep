@@ -9,6 +9,7 @@ import '../classes/SpaceClass.dart';
 import '../classes/UserClass.dart';
 import 'DialogManager.dart';
 import 'Functions.dart';
+import 'Web3Manager.dart';
 
 class DeepWidgets {
   Color bgColor = const Color(0xFFF2E5D0);
@@ -16,6 +17,8 @@ class DeepWidgets {
   Color accentColor = const Color(0xFFEEC78E);
 
   SpacesController get sc => Get.find<SpacesController>();
+
+  Web3Controller get wc => Get.find<Web3Controller>();
 
   Widget titleText(String title, Color color, TextAlign align) => Text(
         title,
@@ -103,9 +106,9 @@ class DeepWidgets {
             String u = users[i];
 
             if (i == 3) {
-              return userCircle('+${users.length - 3}', color, true);
+              return userCircleWithLetter('+${users.length - 3}', color, true);
             } else {
-              return userCircle(u.toUpperCase(), color, true);
+              return userCircleWithLetter(u.toUpperCase(), color, true);
             }
           }),
     );
@@ -120,6 +123,18 @@ class DeepWidgets {
           backgroundColor: bgColor,
           backgroundImage: NetworkImage(userImageUrl),
         ),
+      ),
+    );
+  }
+
+  Widget userCircleWithLetter(String username, Color color, bool withOffset) {
+    return Align(
+      widthFactor: (withOffset) ? .6 : null,
+      child: Container(
+        decoration: BoxDecoration(border: Border.all(color: accentColor, width: 2), shape: BoxShape.circle),
+        child: CircleAvatar(
+            backgroundColor: bgColor,
+            child: Text(username.toUpperCase(), style: TextStyle(color: DeepWidgets().textColor))),
       ),
     );
   }
@@ -365,7 +380,9 @@ class DeepWidgets {
         Expanded(
             child: Padding(
           padding: const EdgeInsets.only(right: 10.0),
-          child: actionButton('Fund', Icons.credit_card, () {}),
+          child: actionButton('Fund', Icons.credit_card, () async {
+            DialogManager().getAmountToFund(b);
+          }),
         )),
         actionButton('Like', Icons.favorite_border, () {}),
       ],

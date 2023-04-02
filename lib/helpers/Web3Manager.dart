@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/classes/BookClass.dart';
@@ -36,7 +38,7 @@ class Web3Controller extends GetxController {
   late ContractEvent _bookDisliked;
 
   //contract
-  late DeployedContract _spaceContract;
+  late DeployedContract spaceContract;
 
   //functions and vars from bookNFTContract
   late DeployedContract bookNFTContract;
@@ -56,7 +58,7 @@ class Web3Controller extends GetxController {
   init() async {
     httpClient = Client();
     ethClient = Web3Client('https://sepolia.infura.io/v3/cee3051950074064af65e2244b0cc0b2', httpClient);
-    _spaceContract = await loadSpaceContract();
+    spaceContract = await loadSpaceContract();
     bookNFTContract = await loadBookNFTContract();
     listenToEvents();
   }
@@ -118,7 +120,7 @@ class Web3Controller extends GetxController {
       _credentials,
       chainId: chainId,
       Transaction.callContract(
-        contract: _spaceContract,
+        contract: spaceContract,
         function: _listItem,
         parameters: [
           nftAddress,
@@ -140,7 +142,8 @@ class Web3Controller extends GetxController {
         likes: 0,
         coverImageUrl: imageUrl,
         units: units,
-        unitPrice: unitPrice);
+        unitPrice: unitPrice,
+        unitType: sc.publishingUnitType.value);
 
     //hosteamos algunos datos no sensible en una base centralizada para facil acceso y reduccion de transacciones
     await DatabaseManager().saveBook(b);
@@ -181,5 +184,50 @@ class Web3Controller extends GetxController {
 
     //pueden agarrar el transaction id del response y ver en etherscan que el contrato funciono para emitir el evento
     print(response);
+  }
+
+  fundBook(EthereumAddress nftAddress, int tokenId, int units, int priceInEth) async {
+    /*
+        address nftAddress,
+        uint256 tokenId,
+        uint256 units
+     */
+
+    int chainId = (await ethClient.getChainId()).toInt();
+    print(BigInt.parse((priceInEth * 1000000000000000000).toString()));
+    //llamar a la funcion
+    String response1 = await ethClient.sendTransaction(
+      _credentials,
+      chainId: chainId,
+      Transaction.callContract(
+        contract: spaceContract,
+        function: _fundBook,
+        gasPrice: EtherAmount.inWei(BigInt.one),
+        maxGas: 100000,
+        value: EtherAmount.fromUnitAndValue(EtherUnit.ether, 1),
+        parameters: [
+          bookNFTContract.address,
+          BigInt.parse(tokenId.toString()),
+          BigInt.parse(units.toString()),
+        ],
+      ),
+    );
+
+    print(response1);
+    //hacer la transaccion
+    // String response2 = await ethClient.sendTransaction(
+    //   _credentials,
+    //   chainId: chainId,
+    //   Transaction(to: nftAddress, from: myEthAddress, value: EtherAmount.fromInt(EtherUnit.ether, priceInEth)),
+    // );
+    // print(response2);
+
+    sc.fundAmountC.clear();
+    Get.back();
+    DialogManager().success('Successfully sent $priceInEth ETH');
+  }
+
+  BigInt ethToWei(int ethValue) {
+    return BigInt.parse((ethValue * pow(10, 18)).round().toString());
   }
 }

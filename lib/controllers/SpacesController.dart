@@ -24,6 +24,9 @@ class SpacesController extends GetxController {
   final TextEditingController precioUnitC = TextEditingController();
   final TextEditingController cantidadUnitC = TextEditingController();
 
+  //variables para detalle de fundear
+  final TextEditingController fundAmountC = TextEditingController();
+
 //otras
   final RxString uriGlobal = RxString('');
   RxInt navIndex = 0.obs;
