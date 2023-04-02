@@ -15,12 +15,14 @@ Para correr Deep, es importante tener en cuenta que se necesita tener instalado 
 1. Instalar la última actualización de Flutter SDK
 2. Hacer run de flutter doctor en terminal para verificar lo instalado
 3. En caso de no tener Android Studio, instalarlo (https://developer.android.com/studio?gclid=CjwKCAjwrJ-hBhB7EiwAuyBVXZ5yAXmnWT55KxRd71nAxPU3wCXM26wa0lkxpvzRAh1aWkgh215T3RoCYngQAvD_BwE&gclsrc=aw.ds)
-4. Instalar Metamask en el emulador de Android 
+4. Instalar un emulador de Android (recomendado)
 
 ### Algunas consideraciones 👀
 
-- Para poder utilizar Deep, es necesario tener instalado *Metamask* en el emulador que se vaya a usar. 
 - Las dependencias necesarias para correr la Dapp ya se encuentran en pubspec.yaml.
+- Utilizamos hard-coded public y private keys para registrarte con un wallet de prueba. Se integrará con MetaMask para firmar las transacciones automaticamente en un futuro.
+- Podes modificar esas keys para logearte con tu propio Wallet. Cambiar en `Web3Manager.dart`.
+- Utilizamos Sepolia TestNet. Si conectás tu propio Wallet, no te olvides de switchearte a Sepolia para poder realizar transacciones.
 
 ---
 # Stack Tecnológico 🤓
