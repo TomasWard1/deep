@@ -12,6 +12,11 @@ No hay intermediarios que decidan qué libros se publican y cuáles no. Los lect
 
 Para correr Deep, es importante tener en cuenta que se necesita tener instalado flutter (https://docs.flutter.dev/get-started/install). A su vez, recomendamos el enviroment de Android Studio para ejecutarlo.
 
+1. Instalar la última actualización de Flutter SDK
+2. Hacer run de flutter doctor en terminal para verificar lo instalado
+3. En caso de no tener Android Studio, instalarlo (https://developer.android.com/studio?gclid=CjwKCAjwrJ-hBhB7EiwAuyBVXZ5yAXmnWT55KxRd71nAxPU3wCXM26wa0lkxpvzRAh1aWkgh215T3RoCYngQAvD_BwE&gclsrc=aw.ds)
+4. Instalar Metamask en el emulador de Android 
+
 ### Algunas consideraciones 👀
 
 - Para poder utilizar Deep, es necesario tener instalado *Metamask* en el emulador que se vaya a usar. 
