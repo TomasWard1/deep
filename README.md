@@ -23,6 +23,7 @@ Para correr Deep, es importante tener en cuenta que se necesita tener instalado 
 - Utilizamos hard-coded public y private keys para registrarte con un wallet de prueba. Se integrará con MetaMask para firmar las transacciones automaticamente en un futuro.
 - Podes modificar esas keys para logearte con tu propio Wallet. Cambiar en `Web3Manager.dart`.
 - Utilizamos Sepolia TestNet. Si conectás tu propio Wallet, no te olvides de switchearte a Sepolia para poder realizar transacciones.
+- Considerar que la TestNet es puede funcionar lentamente.
 
 ---
 # Stack Tecnológico 🤓
