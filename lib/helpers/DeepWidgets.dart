@@ -375,17 +375,36 @@ class DeepWidgets {
   }
 
   Widget bookActionButtons(Book b) {
-    return Row(
-      children: [
-        Expanded(
-            child: Padding(
-          padding: const EdgeInsets.only(right: 10.0),
-          child: actionButton('Fund', Icons.credit_card, () async {
-            DialogManager().getAmountToFund(b);
-          }),
-        )),
-        actionButton('Like', Icons.favorite_border, () {}),
-      ],
+    bool isMine = b.author.id.toLowerCase() == wc.myAddress.toLowerCase();
+    return Obx(
+      () => (sc.loading.value)
+          ? CircularProgressIndicator(
+              color: DeepWidgets().accentColor,
+            )
+          : Row(
+              children: [
+                Expanded(
+                    child: Padding(
+                  padding: const EdgeInsets.only(right: 10.0),
+                  child: actionButton((isMine) ? 'Withdraw' : 'Fund', Icons.credit_card, () async {
+                    if (isMine) {
+                      sc.setLoading(true);
+                      try {
+                        await wc.withdrawProceeds(wc.spaceContract.address, int.parse(b.id));
+                      } catch (e, s) {
+                        print(e);
+                        print(s);
+                        sc.setLoading(false);
+                      }
+                      sc.setLoading(false);
+                    } else {
+                      DialogManager().getAmountToFund(b);
+                    }
+                  }),
+                )),
+                actionButton('Like', Icons.favorite_border, () {}),
+              ],
+            ),
     );
   }
 

@@ -218,6 +218,34 @@ class Web3Controller extends GetxController {
     DialogManager().success('Successfully sent $priceInEth ETH');
   }
 
+  withdrawProceeds(EthereumAddress nftAddress, int tokenId) async {
+    /*
+      address nftAddress,
+      uint256 tokenId
+     */
+
+    int chainId = (await ethClient.getChainId()).toInt();
+
+    String response1 = await ethClient.sendTransaction(
+      _credentials,
+      chainId: chainId,
+      Transaction.callContract(
+        contract: spaceContract,
+        function: _withdrawProceeds,
+        gasPrice: EtherAmount.inWei(BigInt.one),
+        maxGas: 100000,
+        parameters: [
+          bookNFTContract.address,
+          BigInt.parse(tokenId.toString()),
+        ],
+      ),
+    );
+
+    print(response1);
+    Get.back();
+    DialogManager().success('Successfully withdrew ETH');
+  }
+
   BigInt ethToWei(int ethValue) {
     return BigInt.parse((ethValue * pow(10, 18)).round().toString());
   }
