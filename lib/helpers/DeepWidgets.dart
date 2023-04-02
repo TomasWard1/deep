@@ -38,7 +38,7 @@ class DeepWidgets {
         style: GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: color)),
       );
 
-  Widget spaceListTile(Space s) => GestureDetector(
+  Widget spaceListTile(Space s,String url) => GestureDetector(
         onTap: () {},
         child: Container(
           margin: const EdgeInsets.only(bottom: 15),
@@ -53,9 +53,10 @@ class DeepWidgets {
               Row(
                 //
                 children: [
+                  Image.asset('assets/thriller.png'),
                   CircleAvatar(
                     backgroundColor: Colors.black12,
-                    child: Icon(Icons.workspaces_outlined, color: textColor),
+                    backgroundImage: AssetImage('assets/cuentos.png'),
                   ),
                   Expanded(
                       child: Padding(
@@ -103,12 +104,14 @@ class DeepWidgets {
           itemCount: (users.length < 4) ? users.length : 4,
           scrollDirection: Axis.horizontal,
           itemBuilder: (c, i) {
-            String u = users[i];
+            User? u = sc.allUsers.firstWhereOrNull((element) => element.id == users[i]);
 
             if (i == 3) {
               return userCircleWithLetter('+${users.length - 3}', color, true);
+            } else if (u == null) {
+              return userCircleWithLetter('N', color, true);
             } else {
-              return userCircleWithLetter(u.toUpperCase(), color, true);
+              return userCircle(u.imageUrl!, color, true);
             }
           }),
     );
@@ -158,24 +161,25 @@ class DeepWidgets {
             itemCount: s.contributors.length,
             itemBuilder: (c, i) {
               String username = s.contributors.keys.elementAt(i);
+              User u = sc.allUsers.singleWhere((element) => element.id == username);
               int totalBooks = s.contributors[username]!.totalBooks;
               int totalAmount = s.contributors[username]!.totalAmount;
-              return contributorListTile(username, totalBooks, totalAmount);
+              return contributorListTile(u, totalBooks, totalAmount);
             })
       ],
     );
   }
 
-  Widget contributorListTile(String username, int totalBooks, int totalAmount) {
+  Widget contributorListTile(User u, int totalBooks, int totalAmount) {
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 15, top: 10, bottom: 10),
       child: Row(
         children: [
-          userCircle(username.toUpperCase(), textColor, false),
+          userCircle(u.imageUrl!, textColor, false),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 10.0),
-            child: bodyText('User', textColor, 1),
+            child: bodyText(u.fullName, textColor, 1),
           )),
           bodyText("$totalAmount ETH", textColor, 1)
         ],
@@ -183,16 +187,16 @@ class DeepWidgets {
     );
   }
 
-  Widget authorListTile(String username, int totalBooks, int totalAmount) {
+  Widget authorListTile(User u, int totalBooks, int totalAmount) {
     return Container(
       padding: const EdgeInsets.only(left: 10, right: 15, top: 10, bottom: 10),
       child: Row(
         children: [
-          userCircle(username.toUpperCase(), textColor, false),
+          userCircle(u.imageUrl!, textColor, false),
           Expanded(
               child: Padding(
             padding: const EdgeInsets.only(left: 10.0),
-            child: bodyText('Author', textColor, 1),
+            child: bodyText(u.pseudonym, textColor, 1),
           )),
           Padding(
               padding: const EdgeInsets.only(right: 5.0),
@@ -226,9 +230,10 @@ class DeepWidgets {
             itemCount: s.contributors.length,
             itemBuilder: (c, i) {
               String username = s.contributors.keys.elementAt(i);
+              User u = sc.allUsers.singleWhere((element) => element.id == username);
               int totalBooks = s.contributors[username]!.totalBooks;
               int totalAmount = s.contributors[username]!.totalAmount;
-              return authorListTile(username, totalBooks, totalAmount);
+              return authorListTile(u, totalBooks, totalAmount);
             })
       ],
     );
@@ -375,7 +380,7 @@ class DeepWidgets {
   }
 
   Widget bookActionButtons(Book b) {
-    bool isMine = !(b.author.id.toLowerCase() == wc.myAddress.toLowerCase());
+    bool isMine = (b.author.id.toLowerCase() == wc.myAddress.toLowerCase());
     return Obx(
       () => (sc.loading.value)
           ? CircularProgressIndicator(

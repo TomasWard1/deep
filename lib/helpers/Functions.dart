@@ -21,7 +21,7 @@ class Functions {
   Future saveProfileInfo(String fullName, String pseudonym, File? image, UserType type) async {
     sc.setLoading(true);
     String? imageUrl;
-    String userId = sc.accountId;
+    String userId = const Uuid().v4();
     if (image != null) {
       imageUrl = await DatabaseManager().uploadUserImage(
         image,
@@ -96,7 +96,8 @@ class Functions {
         likes: 0,
         coverImageUrl: imageUrl,
         units: 0,
-        unitPrice: 0, unitType: UnitType.Ejemplares);
+        unitPrice: 0,
+        unitType: UnitType.Ejemplares);
 
     Map j = toMint.toJson();
     print(j);

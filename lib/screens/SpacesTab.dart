@@ -6,7 +6,16 @@ import '../controllers/SpacesController.dart';
 import '../helpers/DeepWidgets.dart';
 
 class SpacesTab extends GetView<SpacesController> {
-  const SpacesTab({super.key});
+  SpacesTab({super.key});
+
+  final List<String> urls = [
+    'misterio.png',
+    'drama.png',
+    'fantasia.png',
+    'thriller.png',
+    'cuentos.png',
+    'historia.png',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +36,8 @@ class SpacesTab extends GetView<SpacesController> {
                 itemCount: controller.spaces.length,
                 itemBuilder: (c, i) {
                   Space s = controller.spaces[i];
-                  return DeepWidgets().spaceListTile(s);
+                  String url = urls[i];
+                  return DeepWidgets().spaceListTile(s, url);
                 }),
           )
         ],

@@ -20,7 +20,7 @@ class NavBar extends GetView<SpacesController> {
         child: Scaffold(
             backgroundColor: dw.bgColor,
             extendBody: true,
-            body: (onSpace) ? const SpacesTab() : ProfileTab(),
+            body: (onSpace) ? SpacesTab() : ProfileTab(),
             bottomNavigationBar: BottomNavigationBar(
                 onTap: (val) {
                   controller.navIndex.value = val;

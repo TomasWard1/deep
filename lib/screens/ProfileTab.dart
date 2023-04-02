@@ -71,7 +71,7 @@ class ProfileTab extends GetView<SpacesController> {
                                   indent: Get.size.width * 0.2,
                                   height: 40,
                                 ),
-                                dw.bodyText(controller.accountId, dw.textColor, 1),
+                                dw.bodyText(wc.myAddress, dw.textColor, 1),
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10),
                                   child: Row(
