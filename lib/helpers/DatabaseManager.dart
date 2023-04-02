@@ -41,6 +41,17 @@ class DatabaseManager {
     });
   }
 
+  getAllBooks() {
+    databaseRoot.child('books').onValue.listen((event) {
+      Map bookMap = event.snapshot.value as Map;
+      List<Book> l = bookMap.entries.map((e) {
+        return Book.fromMap(e.value as Map, e.key as String);
+      }).toList();
+      sc.allBooks.value = l;
+      sc.allBooks.refresh();
+    });
+  }
+
   Future saveBook(Book b) async {
     await databaseRoot.child('books').child(b.id).set(b.toJson());
   }

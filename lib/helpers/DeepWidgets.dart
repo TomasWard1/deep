@@ -111,18 +111,15 @@ class DeepWidgets {
     );
   }
 
-  Widget userCircle(String text, Color color, bool withOffset) {
+  Widget userCircle(String userImageUrl, Color color, bool withOffset) {
     return Align(
       widthFactor: (withOffset) ? .6 : null,
       child: Container(
         decoration: BoxDecoration(border: Border.all(color: accentColor, width: 2), shape: BoxShape.circle),
         child: CircleAvatar(
-            backgroundColor: bgColor,
-            child: Text(
-              text,
-              style: GoogleFonts.nunito(
-                  textStyle: TextStyle(fontSize: 15, color: textColor, fontWeight: FontWeight.normal)),
-            )),
+          backgroundColor: bgColor,
+          backgroundImage: NetworkImage(userImageUrl),
+        ),
       ),
     );
   }
@@ -223,6 +220,7 @@ class DeepWidgets {
   }
 
   Widget bookList(Space s) {
+    print(s.books.length);
     return ListView.builder(
         primary: false,
         physics: const NeverScrollableScrollPhysics(),
@@ -235,31 +233,53 @@ class DeepWidgets {
   }
 
   Widget bookListTile(Book b) {
-    return Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        child: ListTile(
-          onTap: () {
-            DialogManager().bookDetail(b);
-          },
-          contentPadding: const EdgeInsets.only(left: 5, right: 5),
-          minLeadingWidth: 10,
-          leading: Icon(Icons.bookmark_border, color: textColor),
-          title: Text(
-            b.title,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style:
-                GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: textColor)),
-          ),
-          subtitle: Text(
-            b.description,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style:
-                GoogleFonts.nunito(textStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: textColor)),
-          ),
-          trailing: Icon(Icons.arrow_right, color: textColor),
-        ));
+    return GestureDetector(
+      onTap: () {
+        DialogManager().bookDetail(b);
+      },
+      child: Container(
+          margin: const EdgeInsets.only(bottom: 10),
+          child: Row(
+            children: [
+              Container(
+                  margin: const EdgeInsets.only(right: 15),
+                  width: 70,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      color: Colors.black12,
+                      borderRadius: BorderRadius.circular(10),
+                      image: DecorationImage(image: NetworkImage(b.coverImageUrl), fit: BoxFit.fill))),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        b.title,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.nunito(
+                            textStyle: TextStyle(fontWeight: FontWeight.bold, fontSize: 17, color: textColor)),
+                      ),
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      child: Text(
+                        b.description,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: GoogleFonts.nunito(
+                            textStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 16, color: textColor)),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Icon(Icons.arrow_right, color: textColor)
+            ],
+          )),
+    );
   }
 
   Widget bookDetail(Book b) {
@@ -281,17 +301,25 @@ class DeepWidgets {
             padding: const EdgeInsets.only(top: 20.0),
             child: Row(
               children: [
+                Container(
+                    margin: const EdgeInsets.only(right: 15),
+                    width: 70,
+                    height: 100,
+                    decoration: BoxDecoration(
+                        color: Colors.black12,
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(image: NetworkImage(b.coverImageUrl), fit: BoxFit.fill))),
                 Expanded(
                     child: Padding(
-                  padding: const EdgeInsets.only(right: 10.0),
+                  padding: const EdgeInsets.only(right: 15.0),
                   child: Column(
                     children: [
                       SizedBox(width: double.infinity, child: headingText(b.title, textColor)),
-                      bodyText(b.description, textColor, null),
+                      SizedBox(width: double.infinity, child: bodyText(b.description, textColor, null)),
                     ],
                   ),
                 )),
-                userCircle(b.authorId.toUpperCase(), textColor, false)
+                userCircle(b.author.imageUrl!, textColor, false)
               ],
             ),
           ),

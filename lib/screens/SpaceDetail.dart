@@ -30,49 +30,46 @@ class SpaceDetail extends GetView<SpacesController> {
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(15.0),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5.0, left: 5.0),
-                      child: Icon(Icons.workspaces_outlined, size: 35, color: DeepWidgets().textColor),
-                      //Image.asset('assets/deepLogo.jpg',width: 50,height: 50,),
-                    ),
-                    Expanded(
-                        child: Hero(
-                            tag: id,
-                            child: DeepWidgets().titleText(space.name, DeepWidgets().textColor, TextAlign.left))),
-                    // ElevatedButton(
-                    //     onPressed: () {
-                    //       DialogManager().askListingDetails(0);
-                    //     },
-                    //     child: Text('test'))
-                  ],
-                ),
-                Expanded(
-                  child: SingleChildScrollView(
-                    physics: const BouncingScrollPhysics(),
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 15.0),
-                          child: DeepWidgets().topContributors(space),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: DeepWidgets().topAuthors(space),
-                        ),
-                        Container(
-                            margin: const EdgeInsets.only(top: 20, left: 5, bottom: 10),
-                            width: double.infinity,
-                            child: DeepWidgets().headingText('Books', DeepWidgets().textColor)),
-                        DeepWidgets().bookList(space)
-                      ],
-                    ),
+            child: Obx(
+              () => Column(
+                children: [
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(right: 5.0, left: 5.0),
+                        child: Icon(Icons.workspaces_outlined, size: 35, color: DeepWidgets().textColor),
+                        //Image.asset('assets/deepLogo.jpg',width: 50,height: 50,),
+                      ),
+                      Expanded(
+                          child: Hero(
+                              tag: id,
+                              child: DeepWidgets().titleText(space.name, DeepWidgets().textColor, TextAlign.left))),
+                    ],
                   ),
-                )
-              ],
+                  Expanded(
+                    child: SingleChildScrollView(
+                      physics: const BouncingScrollPhysics(),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 15.0),
+                            child: DeepWidgets().topContributors(space),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: DeepWidgets().topAuthors(space),
+                          ),
+                          Container(
+                              margin: const EdgeInsets.only(top: 20, left: 5, bottom: 10),
+                              width: double.infinity,
+                              child: DeepWidgets().headingText('Books', DeepWidgets().textColor)),
+                          DeepWidgets().bookList(space)
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ));

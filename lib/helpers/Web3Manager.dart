@@ -49,7 +49,8 @@ class Web3Controller extends GetxController {
 
   EthereumAddress get myEthAddress => EthereumAddress.fromHex(myAddress);
 
-  String get myAddress => sc.accountId;
+  String get myAddress => _testPublicKey;
+  final String _testPublicKey = '0x17d1F86a0Db1d949635B4eE2Ef2f2BF35332c789';
   final String _testPrivateKey = '59bb2d62bc891c38b4c9f4eac4433c49583d0343184aa7bf198047e2ed28b099';
 
   init() async {
@@ -144,6 +145,7 @@ class Web3Controller extends GetxController {
     //hosteamos algunos datos no sensible en una base centralizada para facil acceso y reduccion de transacciones
     await DatabaseManager().saveBook(b);
     Get.back();
+    sc.resetPublishingFields();
 
     //pueden agarrar el transaction id del response y ver en etherscan que el contrato funciono para emitir el evento
     print(response);

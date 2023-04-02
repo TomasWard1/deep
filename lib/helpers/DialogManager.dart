@@ -128,7 +128,7 @@ class DialogManager {
                   if (sc.loading.value) ...[
                     CircularProgressIndicator(color: dw.accentColor),
                     Padding(
-                      padding: const EdgeInsets.only(top:10.0,bottom: 10),
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                       child: dw.bodyText('Cargando a blockchain...', dw.textColor, 1),
                     )
                   ] else ...[
@@ -238,7 +238,8 @@ class DialogManager {
                               margin: const EdgeInsets.only(top: 30),
                               width: double.infinity,
                               child: dw.headingText(
-                                  (esEjemplares) ? 'Precio por ejemplar' : 'Precio por hora (ETH)', dw.textColor)),
+                                  (esEjemplares) ? 'Precio por ejemplar (ETH)' : 'Precio por hora (ETH)',
+                                  dw.textColor)),
                           dw.textFormField(sc.precioUnitC, 'Ingresar...', false, 16, TextAlign.left, 1),
                           Container(
                               margin: const EdgeInsets.only(top: 20),
@@ -253,7 +254,7 @@ class DialogManager {
                   if (sc.loading.value) ...[
                     CircularProgressIndicator(color: dw.accentColor),
                     Padding(
-                      padding: const EdgeInsets.only(top:10.0,bottom: 10),
+                      padding: const EdgeInsets.only(top: 10.0, bottom: 10),
                       child: dw.bodyText('Cargando a blockchain...', dw.textColor, 1),
                     )
                   ] else ...[
@@ -264,7 +265,6 @@ class DialogManager {
                             sc.setLoading(true);
                             int units = int.parse(sc.cantidadUnitC.text);
                             int unitPrice = int.parse(sc.precioUnitC.text);
-
                             try {
                               await wc.listItem(wc.bookNFTContract.address, tokenId, units, unitPrice);
                             } catch (e, s) {
