@@ -201,8 +201,8 @@ class Web3Controller extends GetxController {
       Transaction.callContract(
         contract: spaceContract,
         function: _fundBook,
-        gasPrice: EtherAmount.inWei(BigInt.one),
-        maxGas: 100000,
+        gasPrice: null,
+        maxGas: 10000000,
         value: EtherAmount.fromUnitAndValue(EtherUnit.ether, priceInEth),
         parameters: [
           bookNFTContract.address,

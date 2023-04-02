@@ -375,7 +375,7 @@ class DeepWidgets {
   }
 
   Widget bookActionButtons(Book b) {
-    bool isMine = b.author.id.toLowerCase() == wc.myAddress.toLowerCase();
+    bool isMine = !(b.author.id.toLowerCase() == wc.myAddress.toLowerCase());
     return Obx(
       () => (sc.loading.value)
           ? CircularProgressIndicator(

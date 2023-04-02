@@ -309,6 +309,11 @@ class DialogManager {
                 SizedBox(
                     width: double.infinity,
                     child: dw.textFormField(sc.fundAmountC, 'Insertar...', false, 19, TextAlign.left, 1)),
+                Container(
+                  margin: EdgeInsets.only(bottom:5),
+                    width: double.infinity,
+                    child: dw.headingText(
+                        'Unit Price: ${b.unitPrice} ETH', dw.textColor)),
                 if (sc.loading.value) ...[
                   CircularProgressIndicator(color: dw.accentColor),
                   Padding(
