@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:hackitba/controllers/SpacesController.dart';
 
+import '../classes/BookClass.dart';
 import '../classes/UserClass.dart';
 
 class DatabaseManager {
@@ -37,7 +38,10 @@ class DatabaseManager {
       }).toList();
       sc.allUsers.value = l;
       sc.allUsers.refresh();
-
     });
+  }
+
+  Future saveBook(Book b) async {
+    await databaseRoot.child('books').child(b.id).set(b.toJson());
   }
 }

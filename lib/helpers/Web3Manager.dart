@@ -1,9 +1,12 @@
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hackitba/classes/BookClass.dart';
 import 'package:hackitba/controllers/SpacesController.dart';
+import 'package:hackitba/helpers/DatabaseManager.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
+import '../classes/SpaceClass.dart';
 import 'DialogManager.dart';
 
 class Web3Controller extends GetxController {
@@ -54,7 +57,7 @@ class Web3Controller extends GetxController {
     httpClient = Client();
     ethClient = Web3Client('https://sepolia.infura.io/v3/cee3051950074064af65e2244b0cc0b2', httpClient);
     _spaceContract = await loadSpaceContract();
-    _bookNFTContract = await loadBookNFTContract();
+    bookNFTContract = await loadBookNFTContract();
     listenToEvents();
   }
 
@@ -103,7 +106,7 @@ class Web3Controller extends GetxController {
     _credentials = EthPrivateKey.fromHex(_testPrivateKey);
   }
 
-  listItem(String nftAddress, int tokenId, int units, int unitPrice) async {
+  listItem(String nftAddress, int tokenId, int units, int unitPrice, Space s) async {
     /*
      address nftAddress,
         uint256 tokenId,
@@ -120,6 +123,24 @@ class Web3Controller extends GetxController {
         parameters: [nftAddress, tokenId, units, unitPrice],
       ),
     );
+
+    String imageUrl = await DatabaseManager().uploadBookImage(sc.coverImage.value!, tokenId.toString());
+
+    Book b = Book(
+        id: tokenId.toString(),
+        title: sc.titleC.text,
+        description: sc.descC.text,
+        authorId: sc.accountId,
+        space: s,
+        likes: 0,
+        coverImageUrl: imageUrl,
+        units: units,
+        unitPrice: unitPrice);
+
+    //hosteamos algunos datos no sensible en una base centralizada para facil acceso y reduccion de transacciones
+    await DatabaseManager().saveBook(b);
+
+    //pueden agarrar el transaction id del response y ver en etherscan que el contrato funciono para emitir el evento
     print(response);
   }
 
@@ -127,9 +148,6 @@ class Web3Controller extends GetxController {
     //nft minted
     ethClient.events(FilterOptions.events(contract: bookNFTContract, event: _nftMintedEvent)).take(1).listen((event) {
       final decoded = _nftMintedEvent.decodeResults(event.topics ?? [], event.data ?? '');
-
-      print(event);
-      print(decoded);
 
       int tokenId = decoded[0] as int;
       sc.setLoading(false);
@@ -142,7 +160,6 @@ class Web3Controller extends GetxController {
     /*
     string memory tokenURI
      */
-
     int chainId = (await ethClient.getChainId()).toInt();
 
     String response = await ethClient.sendTransaction(
@@ -154,11 +171,8 @@ class Web3Controller extends GetxController {
         parameters: [encoded],
       ),
     );
+
+    //pueden agarrar el transaction id del response y ver en etherscan que el contrato funciono para emitir el evento
     print(response);
-
-    //getNFT address
-
-    // String response2 = await listItem(nftAddress, tokenId, units, unitPrice);
-    // print(response2);
   }
 }

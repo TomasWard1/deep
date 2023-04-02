@@ -94,7 +94,9 @@ class Functions {
         authorId: sc.currentUser.id,
         space: s,
         likes: 0,
-        coverImageUrl: imageUrl);
+        coverImageUrl: imageUrl,
+        units: 0,
+        unitPrice: 0);
 
     Map j = toMint.toJson();
     print(j);
@@ -102,7 +104,6 @@ class Functions {
     String encoded = toMint.encodeJsonBas64(j);
     try {
       await wc.mintBookNft(encoded);
-
     } catch (e, s) {
       print(e);
       print(s);
@@ -110,7 +111,5 @@ class Functions {
       Get.back();
       DialogManager().error('Error minting NFT');
     }
-
-
   }
 }
