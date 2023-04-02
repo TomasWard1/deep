@@ -8,8 +8,9 @@ import '../helpers/DialogManager.dart';
 
 class SpaceDetail extends GetView<SpacesController> {
   final String id;
+  final String imageUrl;
 
-  const SpaceDetail({super.key, required this.id});
+  const SpaceDetail({super.key, required this.id,required this.imageUrl});
 
   Space get space => controller.spaces.singleWhere((element) => element.id == id);
 
@@ -36,9 +37,12 @@ class SpaceDetail extends GetView<SpacesController> {
                   Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(right: 5.0, left: 5.0),
-                        child: Icon(Icons.workspaces_outlined, size: 35, color: DeepWidgets().textColor),
-                        //Image.asset('assets/deepLogo.jpg',width: 50,height: 50,),
+                        padding: const EdgeInsets.only(right: 10.0),
+                        child: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: Colors.black12,
+                          backgroundImage: AssetImage(imageUrl),
+                        ),
                       ),
                       Expanded(
                           child: Hero(

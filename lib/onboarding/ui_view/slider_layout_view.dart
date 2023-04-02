@@ -5,11 +5,11 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hackitba/helpers/DialogManager.dart';
+import 'package:hackitba/screens/UserForm.dart';
 
 import '../../controllers/SpacesController.dart';
 import '../../helpers/DeepWidgets.dart';
-import '../../helpers/Functions.dart';
-import '../../helpers/Web3Manager.dart';
 import '../model/slider.dart';
 import '../widgets/slide_dots.dart';
 import '../widgets/slide_items/slide_item.dart';
@@ -118,9 +118,10 @@ class _SliderLayoutViewState extends State<SliderLayoutView> {
                           alignment: AlignmentDirectional.bottomCenter,
                           margin: const EdgeInsets.only(bottom: 20),
                           width: double.infinity,
-                          child: dw.actionButton('Conectar Wallet', Icons.wallet, () async {
-                           // Get.find<Web3Controller>().loginWithMetamask();
-                            // Functions().loginWithMetamask(false);
+                          child: dw.actionButton('Conectar Wallet', Icons.wallet, () {
+                            print('action');
+                            DialogManager().success('Logead@ con test Metamask Wallet');
+                            Get.to(() => UserForm());
                           }))
                   ],
                 )

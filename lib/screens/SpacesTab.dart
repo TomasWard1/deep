@@ -9,12 +9,12 @@ class SpacesTab extends GetView<SpacesController> {
   SpacesTab({super.key});
 
   final List<String> urls = [
-    'misterio.png',
-    'drama.png',
-    'fantasia.png',
-    'thriller.png',
-    'cuentos.png',
-    'historia.png',
+    'assets/misterio.jpg',
+    'assets/drama.jpg',
+    'assets/fantasia.jpg',
+    'assets/thriller.jpg',
+    'assets/cuentos.jpg',
+    'assets/historia.jpg',
   ];
 
   @override

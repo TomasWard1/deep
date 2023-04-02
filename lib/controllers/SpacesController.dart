@@ -38,7 +38,7 @@ class SpacesController extends GetxController {
   RxBool loading = false.obs;
   RxList<User> allUsers = RxList<User>([]);
   RxList<Book> allBooks = RxList<Book>([]);
-  String uidForLogin = '0e667454-e873-4fb0-8760-1de8c3db5686';
+  String uidForLogin = '';
   Rxn<Space> currentSpace = Rxn<Space>();
 
   Web3Controller get wc => Get.find<Web3Controller>();
@@ -55,7 +55,7 @@ class SpacesController extends GetxController {
     DatabaseManager().getAllBooks();
 
     await wc.init();
-    //setOnboarding(true);
+    setOnboarding(true);
     super.onInit();
   }
 

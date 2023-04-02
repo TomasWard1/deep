@@ -51,12 +51,10 @@ class DeepWidgets {
           child: Column(
             children: [
               Row(
-                //
                 children: [
-                  Image.asset('assets/thriller.png'),
                   CircleAvatar(
                     backgroundColor: Colors.black12,
-                    backgroundImage: AssetImage('assets/cuentos.png'),
+                    backgroundImage: AssetImage(url),
                   ),
                   Expanded(
                       child: Padding(
@@ -74,7 +72,7 @@ class DeepWidgets {
                 padding: const EdgeInsets.only(left: 10, right: 10),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [Expanded(child: participantOverlapList(s.participantIds, s.color)), joinButton(s)],
+                  children: [Expanded(child: participantOverlapList(s.participantIds, s.color)), joinButton(s,url)],
                 ),
               )
             ],
@@ -82,12 +80,12 @@ class DeepWidgets {
         ),
       );
 
-  Widget joinButton(Space s) {
+  Widget joinButton(Space s,String url) {
     return ElevatedButton(
         onPressed: () async {
           //join space
           await DialogManager().success('Te uniste a ${s.name}');
-          await Get.to(() => SpaceDetail(id: s.id));
+          await Get.to(() => SpaceDetail(id: s.id,imageUrl: url));
           sc.currentSpace.value = s;
           sc.currentSpace.refresh();
         },
