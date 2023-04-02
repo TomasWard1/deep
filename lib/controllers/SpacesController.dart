@@ -36,6 +36,7 @@ class SpacesController extends GetxController {
   RxBool loading = false.obs;
   RxList<User> allUsers = RxList<User>([]);
   String uidForLogin = '38c501a7-8e47-4da9-b3fe-dae5575ed9f1';
+  Rxn<Space> currentSpace = Rxn<Space>();
 
   Web3Controller get wc => Get.find<Web3Controller>();
 
@@ -95,7 +96,9 @@ class SpacesController extends GetxController {
         authorId: 'r',
         space: misterio,
         likes: 100,
-        coverImageUrl: '',units: 30,unitPrice: 2));
+        coverImageUrl: '',
+        units: 30,
+        unitPrice: 2));
 
     misterio.books.add(Book(
         id: '1',
@@ -104,7 +107,9 @@ class SpacesController extends GetxController {
         authorId: 'a',
         space: misterio,
         likes: 100,
-        coverImageUrl: '',units: 30,unitPrice: 2));
+        coverImageUrl: '',
+        units: 30,
+        unitPrice: 2));
 
     misterio.books.add(Book(
         id: '1',
@@ -114,7 +119,9 @@ class SpacesController extends GetxController {
         authorId: 'b',
         space: misterio,
         likes: 100,
-        coverImageUrl: '',units: 30,unitPrice: 2));
+        coverImageUrl: '',
+        units: 30,
+        unitPrice: 2));
 
     misterio.books.add(Book(
         id: '1',
@@ -124,7 +131,9 @@ class SpacesController extends GetxController {
         authorId: 'c',
         space: misterio,
         likes: 100,
-        coverImageUrl: '',units: 30,unitPrice: 2));
+        coverImageUrl: '',
+        units: 30,
+        unitPrice: 2));
 
     misterio.books.add(Book(
         id: '1',
@@ -134,7 +143,9 @@ class SpacesController extends GetxController {
         authorId: 'd',
         space: misterio,
         likes: 100,
-        coverImageUrl: '',units: 30,unitPrice: 2));
+        coverImageUrl: '',
+        units: 30,
+        unitPrice: 2));
 
     misterio.books.add(Book(
         id: '1',
@@ -144,7 +155,9 @@ class SpacesController extends GetxController {
         authorId: 'e',
         space: misterio,
         likes: 100,
-        coverImageUrl: '',units: 30,unitPrice: 2));
+        coverImageUrl: '',
+        units: 30,
+        unitPrice: 2));
 
     misterio.books.add(Book(
         id: '1',
@@ -154,7 +167,9 @@ class SpacesController extends GetxController {
         authorId: 'f',
         space: misterio,
         likes: 100,
-        coverImageUrl: '',units: 30,unitPrice: 2));
+        coverImageUrl: '',
+        units: 30,
+        unitPrice: 2));
 
     misterio.books.add(Book(
         id: '1',
@@ -163,7 +178,9 @@ class SpacesController extends GetxController {
         authorId: 'g',
         space: misterio,
         likes: 100,
-        coverImageUrl: '',units: 30,unitPrice: 2));
+        coverImageUrl: '',
+        units: 30,
+        unitPrice: 2));
 
     misterio.books.add(Book(
         id: '1',
@@ -172,7 +189,9 @@ class SpacesController extends GetxController {
         authorId: 'h',
         space: misterio,
         likes: 100,
-        coverImageUrl: '',units: 30,unitPrice: 2));
+        coverImageUrl: '',
+        units: 30,
+        unitPrice: 2));
 
     misterio.books.add(Book(
         id: '1',
@@ -182,7 +201,9 @@ class SpacesController extends GetxController {
         authorId: 'i',
         space: misterio,
         likes: 100,
-        coverImageUrl: '',units: 30,unitPrice: 2));
+        coverImageUrl: '',
+        units: 30,
+        unitPrice: 2));
 
     Space drama = Space(
         name: 'Drama',

@@ -6,7 +6,6 @@ import 'package:hackitba/helpers/DatabaseManager.dart';
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
 
-import '../classes/SpaceClass.dart';
 import 'DialogManager.dart';
 
 class Web3Controller extends GetxController {
@@ -106,7 +105,7 @@ class Web3Controller extends GetxController {
     _credentials = EthPrivateKey.fromHex(_testPrivateKey);
   }
 
-  listItem(String nftAddress, int tokenId, int units, int unitPrice, Space s) async {
+  listItem(EthereumAddress nftAddress, int tokenId, int units, int unitPrice) async {
     /*
      address nftAddress,
         uint256 tokenId,
@@ -120,18 +119,23 @@ class Web3Controller extends GetxController {
       Transaction.callContract(
         contract: _spaceContract,
         function: _listItem,
-        parameters: [nftAddress, tokenId, units, unitPrice],
+        parameters: [
+          nftAddress,
+          BigInt.parse(tokenId.toString()),
+          BigInt.parse(units.toString()),
+          BigInt.parse(unitPrice.toString())
+        ],
       ),
     );
 
     String imageUrl = await DatabaseManager().uploadBookImage(sc.coverImage.value!, tokenId.toString());
-
+    sc.currentSpace.refresh();
     Book b = Book(
         id: tokenId.toString(),
         title: sc.titleC.text,
         description: sc.descC.text,
-        authorId: sc.accountId,
-        space: s,
+        authorId: myEthAddress.hex,
+        space: sc.spaces.singleWhere((element) => element.name == 'Misterio'),
         likes: 0,
         coverImageUrl: imageUrl,
         units: units,
@@ -139,6 +143,7 @@ class Web3Controller extends GetxController {
 
     //hosteamos algunos datos no sensible en una base centralizada para facil acceso y reduccion de transacciones
     await DatabaseManager().saveBook(b);
+    Get.back();
 
     //pueden agarrar el transaction id del response y ver en etherscan que el contrato funciono para emitir el evento
     print(response);
@@ -149,7 +154,7 @@ class Web3Controller extends GetxController {
     ethClient.events(FilterOptions.events(contract: bookNFTContract, event: _nftMintedEvent)).take(1).listen((event) {
       final decoded = _nftMintedEvent.decodeResults(event.topics ?? [], event.data ?? '');
 
-      int tokenId = decoded[0] as int;
+      int tokenId = (decoded[0] as BigInt).toInt();
       sc.setLoading(false);
       Get.back();
       DialogManager().askListingDetails(tokenId);

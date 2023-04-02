@@ -43,11 +43,11 @@ class SpaceDetail extends GetView<SpacesController> {
                         child: Hero(
                             tag: id,
                             child: DeepWidgets().titleText(space.name, DeepWidgets().textColor, TextAlign.left))),
-                    ElevatedButton(
-                        onPressed: () {
-                          DialogManager().askListingDetails(0);
-                        },
-                        child: Text('test'))
+                    // ElevatedButton(
+                    //     onPressed: () {
+                    //       DialogManager().askListingDetails(0);
+                    //     },
+                    //     child: Text('test'))
                   ],
                 ),
                 Expanded(

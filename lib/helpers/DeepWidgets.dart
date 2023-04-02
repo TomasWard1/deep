@@ -83,7 +83,9 @@ class DeepWidgets {
         onPressed: () async {
           //join space
           await DialogManager().success('Te uniste a ${s.name}');
-          Get.to(() => SpaceDetail(id: s.id));
+          await Get.to(() => SpaceDetail(id: s.id));
+          sc.currentSpace.value = s;
+          sc.currentSpace.refresh();
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: accentColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),

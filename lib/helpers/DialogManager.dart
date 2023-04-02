@@ -127,7 +127,10 @@ class DialogManager {
                   ),
                   if (sc.loading.value) ...[
                     CircularProgressIndicator(color: dw.accentColor),
-                    dw.bodyText('Cargando a blockchain...', dw.textColor, 1)
+                    Padding(
+                      padding: const EdgeInsets.only(top:10.0,bottom: 10),
+                      child: dw.bodyText('Cargando a blockchain...', dw.textColor, 1),
+                    )
                   ] else ...[
                     SizedBox(
                         width: double.infinity,
@@ -249,7 +252,10 @@ class DialogManager {
                   ),
                   if (sc.loading.value) ...[
                     CircularProgressIndicator(color: dw.accentColor),
-                    dw.bodyText('Cargando a blockchain...', dw.textColor, 1)
+                    Padding(
+                      padding: const EdgeInsets.only(top:10.0,bottom: 10),
+                      child: dw.bodyText('Cargando a blockchain...', dw.textColor, 1),
+                    )
                   ] else ...[
                     SizedBox(
                         width: double.infinity,
@@ -258,7 +264,14 @@ class DialogManager {
                             sc.setLoading(true);
                             int units = int.parse(sc.cantidadUnitC.text);
                             int unitPrice = int.parse(sc.precioUnitC.text);
-                            await wc.listItem(wc.bookNFTContract.address.hex, tokenId, units, unitPrice);
+
+                            try {
+                              await wc.listItem(wc.bookNFTContract.address, tokenId, units, unitPrice);
+                            } catch (e, s) {
+                              print(e);
+                              print(s);
+                              sc.setLoading(false);
+                            }
                             sc.setLoading(false);
                           } else {
                             error('Completar todo');
