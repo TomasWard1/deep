@@ -24,6 +24,7 @@ Para correr Deep, es importante tener en cuenta que se necesita tener instalado 
 - Podes modificar esas keys para logearte con tu propio Wallet. Cambiar en `Web3Manager.dart`.
 - Utilizamos Sepolia TestNet. Si conectás tu propio Wallet, no te olvides de switchearte a Sepolia para poder realizar transacciones.
 - Considerar que la TestNet puede funcionar lentamente.
+- En la carpeta `hardhat` se encuentra la parte del Backend (smart contracts).
 
 ---
 # Stack Tecnológico 🤓
