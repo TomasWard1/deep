@@ -15,7 +15,7 @@ class Web3Manager {
   late Web3Client ethClient;
   late Credentials _credentials; //creds of the deployer of the contract
 
-  //functions and vars from contract
+  //functions and vars from spaceContract
   late ContractFunction _listItem;
   late ContractFunction _fundBook;
   late ContractFunction _withdrawProceeds;
@@ -26,7 +26,12 @@ class Web3Manager {
   late ContractFunction _getContributorAmountFunded;
   late ContractFunction _getContributors;
   late DeployedContract _spaceContract;
+
+  //functions and vars from bookNFTContract
   late DeployedContract _bookNFTContract;
+  late ContractFunction _mintNft;
+  late ContractFunction _modifyTokenURI;
+  late ContractFunction _getTokenCounter;
 
   EthereumAddress get myEthAddress => EthereumAddress.fromHex(myAddress);
 
@@ -36,10 +41,11 @@ class Web3Manager {
   init() async {
     httpClient = Client();
     ethClient = Web3Client('https://sepolia.infura.io/v3/cee3051950074064af65e2244b0cc0b2', httpClient);
-    _spaceContract = await loadContract();
+    _spaceContract = await loadSpaceContract();
+    _bookNFTContract = await loadBookNFTContract();
   }
 
-  Future<DeployedContract> loadContract() async {
+  Future<DeployedContract> loadSpaceContract() async {
     String abi = await rootBundle.loadString('assets/abi.json');
     String contractAddress = '0x51FF5920E31BD0e2944d4DBC18DC413d779164B0';
     final contract = DeployedContract(ContractAbi.fromJson(abi, 'Space'), EthereumAddress.fromHex(contractAddress));
@@ -55,6 +61,19 @@ class Web3Manager {
     _getContributorAmountFunded = contract.function("getContributorAmountFunded");
 
     getCredentials();
+
+    return contract;
+  }
+
+  Future<DeployedContract> loadBookNFTContract() async {
+    String abi = await rootBundle.loadString('assets/abi2.json');
+    String contractAddress = '0xF34F226BFFCadF0CB92f59514eDe055ea97caE3C';
+    final contract = DeployedContract(ContractAbi.fromJson(abi, 'BookNft'), EthereumAddress.fromHex(contractAddress));
+
+    //extract all the functions
+    _mintNft = contract.function("mintNft");
+    _modifyTokenURI = contract.function("modifyTokenURI");
+    _getTokenCounter = contract.function("getTokenCounter");
 
     return contract;
   }
@@ -82,7 +101,23 @@ class Web3Manager {
     print(response);
   }
 
-  mintBook() {
+  mintBookNft(String encoded) async {
+    /*
+    string memory tokenURI
+     */
+    String response = await ethClient.sendTransaction(
+      _credentials,
+      Transaction.callContract(
+        contract: _bookNFTContract,
+        function: _mintNft,
+        parameters: [encoded],
+      ),
+    );
+    print(response);
 
+    //getNFT address
+
+    // String response2 = await listItem(nftAddress, tokenId, units, unitPrice);
+    // print(response2);
   }
 }

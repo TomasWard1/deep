@@ -1,15 +1,19 @@
 import 'dart:io';
 
 import 'package:get/get.dart';
+import 'package:hackitba/classes/BookClass.dart';
 import 'package:hackitba/helpers/DatabaseManager.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:url_launcher/url_launcher_string.dart';
+import 'package:uuid/uuid.dart';
 import 'package:walletconnect_dart/walletconnect_dart.dart';
 
+import '../classes/SpaceClass.dart';
 import '../classes/UserClass.dart';
 import '../controllers/SpacesController.dart';
 import '../screens/NavBar.dart';
 import '../screens/UserForm.dart';
+import 'Web3Manager.dart';
 
 class Functions {
   SpacesController get sc => Get.find<SpacesController>();
@@ -24,14 +28,12 @@ class Functions {
             'https://firebasestorage.googleapis.com/v0/b/deep-25ff5.appspot.com/o/deepLogo-removebg-preview.png?alt=media&token=7847ac11-0004-47d6-9ef6-5a03c7b0f7b2'
           ]));
 
-
-
   Future saveProfileInfo(String fullName, String pseudonym, File? image, UserType type) async {
     sc.setLoading(true);
     String? imageUrl;
     String userId = sc.accountId;
     if (image != null) {
-      imageUrl = await DatabaseManager().uploadImage(
+      imageUrl = await DatabaseManager().uploadUserImage(
         image,
         userId,
       );
@@ -39,7 +41,13 @@ class Functions {
 
     //replace id with wallet address
     User toAdd = User(
-        id: userId, pseudonym: pseudonym, fullName: fullName, imageUrl: imageUrl, books: [], spaces: [], type: type);
+        id: userId,
+        pseudonym: pseudonym,
+        fullName: fullName,
+        imageUrl: imageUrl,
+        books: [],
+        spaces: [],
+        type: type);
 
     await DatabaseManager().saveUser(toAdd);
     sc.uidForLogin = toAdd.id;
@@ -99,10 +107,29 @@ class Functions {
             await sc.setOnboarding(true);
             await Get.to(() => UserForm());
           }
+          await Web3Manager().init();
         }
       } catch (exp) {
         print(exp);
       }
     }
+  }
+
+  sendBookProcess(Space s) async {
+    String bookId = const Uuid().v4();
+    String imageUrl = await DatabaseManager().uploadBookImage(sc.coverImage.value!, bookId);
+
+
+    Book toMint = Book(id: bookId,
+        title: sc.titleC.text,
+        description: sc.descC.text,
+        authorId: sc.currentUser.id,
+        space: s,
+        likes: 0,
+        coverImageUrl: imageUrl);
+
+    String encoded = toMint.encodeJsonBas64(toMint.toJson());
+
+    await Web3Manager().mintBookNft(encoded);
   }
 }

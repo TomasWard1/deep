@@ -51,8 +51,10 @@ class UserForm extends GetView<SpacesController> {
                       child: Column(
                         children: [
                           dw.profileImageSelector,
-                          dw.textFormField(controller.fullNameController, '¿Cómo te llamas?', true, 25),
-                          dw.textFormField(controller.pseudonymController, '¿Y tu pseudónimo?', false, 19),
+                          dw.textFormField(
+                              controller.fullNameController, '¿Cómo te llamas?', true, 25, TextAlign.center, 1),
+                          dw.textFormField(
+                              controller.pseudonymController, '¿Y tu pseudónimo?', false, 19, TextAlign.center, 1),
                         ],
                       ),
                     ),

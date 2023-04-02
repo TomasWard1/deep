@@ -17,18 +17,21 @@ class DatabaseManager {
     await databaseRoot.child('users').child(user.id).set(user.toJson());
   }
 
-  Future<String> uploadImage(File image, String uid) async {
+  Future<String> uploadUserImage(File image, String uid) async {
     TaskSnapshot t = await storageRoot.child('profile_images').child(uid).putFile(image);
     String imageUrl = await t.ref.getDownloadURL();
     return imageUrl;
   }
 
-  getAllUsers() {
-    print('getting all users');
+  Future<String> uploadBookImage(File image, String bookId) async {
+    TaskSnapshot t = await storageRoot.child('book_images').child(bookId).putFile(image);
+    String imageUrl = await t.ref.getDownloadURL();
+    return imageUrl;
+  }
 
+  getAllUsers() {
     databaseRoot.child('users').onValue.listen((event) {
       Map userMap = event.snapshot.value as Map;
-
       List<User> l = userMap.entries.map((e) {
         return User.fromMap(e.value as Map, e.key as String);
       }).toList();

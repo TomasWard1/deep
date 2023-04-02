@@ -7,8 +7,8 @@ import 'package:hackitba/screens/SpaceDetail.dart';
 import '../classes/BookClass.dart';
 import '../classes/SpaceClass.dart';
 import '../classes/UserClass.dart';
-import 'Functions.dart';
 import 'DialogManager.dart';
+import 'Functions.dart';
 
 class DeepWidgets {
   Color bgColor = const Color(0xFFF2E5D0);
@@ -82,12 +82,12 @@ class DeepWidgets {
     return ElevatedButton(
         onPressed: () async {
           //join space
-          await DialogManager().success('Joined ${s.name}');
+          await DialogManager().success('Te uniste a ${s.name}');
           Get.to(() => SpaceDetail(id: s.id));
         },
         style: ElevatedButton.styleFrom(
             backgroundColor: accentColor, shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20))),
-        child: bodyText('Join', textColor, 1));
+        child: bodyText('Unirse', textColor, 1));
   }
 
   Widget participantOverlapList(List<String> users, Color color) {
@@ -342,8 +342,10 @@ class DeepWidgets {
     );
   }
 
-  Widget textFormField(TextEditingController c, String hintText, bool bold, double size) {
+  Widget textFormField(
+      TextEditingController c, String hintText, bool bold, double size, TextAlign align, int? maxLines) {
     return TextFormField(
+      maxLines: maxLines,
       validator: (t) {
         if (t == null || t.isEmpty) {
           return 'Cannot be empty';
@@ -351,7 +353,7 @@ class DeepWidgets {
         return null;
       },
       controller: c,
-      textAlign: TextAlign.center,
+      textAlign: align,
       style: GoogleFonts.nunito(
           textStyle:
               TextStyle(fontWeight: (bold) ? FontWeight.bold : FontWeight.normal, fontSize: size, color: textColor)),

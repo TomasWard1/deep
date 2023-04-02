@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'SpaceClass.dart';
 
 class Book {
@@ -17,4 +19,19 @@ class Book {
       required this.space,
       required this.likes,
       required this.coverImageUrl});
+
+  toJson() => {
+        'id': id,
+        'title': title,
+        'description': description,
+        'authorId': authorId,
+        'space': space.id,
+        'likes': likes,
+        'cover_image_url': coverImageUrl
+      };
+
+  String encodeJsonBas64(Map j) {
+    String encoded = base64.encode(utf8.encode(json.encode(j)));
+    return encoded;
+  }
 }
