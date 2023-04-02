@@ -194,7 +194,6 @@ class Web3Controller extends GetxController {
      */
 
     int chainId = (await ethClient.getChainId()).toInt();
-    print(BigInt.parse((priceInEth * 1000000000000000000).toString()));
     //llamar a la funcion
     String response1 = await ethClient.sendTransaction(
       _credentials,
@@ -204,7 +203,7 @@ class Web3Controller extends GetxController {
         function: _fundBook,
         gasPrice: EtherAmount.inWei(BigInt.one),
         maxGas: 100000,
-        value: EtherAmount.fromUnitAndValue(EtherUnit.ether, 1),
+        value: EtherAmount.fromUnitAndValue(EtherUnit.ether, priceInEth),
         parameters: [
           bookNFTContract.address,
           BigInt.parse(tokenId.toString()),
@@ -214,14 +213,6 @@ class Web3Controller extends GetxController {
     );
 
     print(response1);
-    //hacer la transaccion
-    // String response2 = await ethClient.sendTransaction(
-    //   _credentials,
-    //   chainId: chainId,
-    //   Transaction(to: nftAddress, from: myEthAddress, value: EtherAmount.fromInt(EtherUnit.ether, priceInEth)),
-    // );
-    // print(response2);
-
     sc.fundAmountC.clear();
     Get.back();
     DialogManager().success('Successfully sent $priceInEth ETH');
