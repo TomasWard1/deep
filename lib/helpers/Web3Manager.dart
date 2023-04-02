@@ -23,12 +23,14 @@ class Web3Controller extends GetxController {
   late ContractFunction _getProceeds;
   late ContractFunction _getContributorAmountFunded;
   late ContractFunction _getContributors;
+
   //events
-  late ContractFunction _itemListedEvent;
-  late ContractFunction _bookFundedEvent;
-  late ContractFunction _bookRemovedEvent;
-  late ContractFunction _bookLiked;
-  late ContractFunction _bookDisliked;
+  late ContractEvent _itemListedEvent;
+  late ContractEvent _bookFundedEvent;
+  late ContractEvent _bookRemovedEvent;
+  late ContractEvent _bookLiked;
+  late ContractEvent _bookDisliked;
+
   //contract
   late DeployedContract _spaceContract;
 
@@ -37,6 +39,9 @@ class Web3Controller extends GetxController {
   late ContractFunction _mintNft;
   late ContractFunction _modifyTokenURI;
   late ContractFunction _getTokenCounter;
+
+  //events
+  late ContractEvent _nftMinted;
 
   EthereumAddress get myEthAddress => EthereumAddress.fromHex(myAddress);
 
@@ -65,6 +70,13 @@ class Web3Controller extends GetxController {
     _getProceeds = contract.function("getProceeds");
     _getContributorAmountFunded = contract.function("getContributorAmountFunded");
 
+    //extract the events
+    _itemListedEvent = contract.event('ItemListed');
+    _bookFundedEvent = contract.event('BookFunded');
+    _bookRemovedEvent = contract.event('BookRemoved');
+    _bookLiked = contract.event('BookLiked');
+    _bookDisliked = contract.event('BookDisliked');
+
     getCredentials();
 
     return contract;
@@ -79,7 +91,7 @@ class Web3Controller extends GetxController {
     _mintNft = contract.function("mintNft");
     _modifyTokenURI = contract.function("modifyTokenURI");
     _getTokenCounter = contract.function("getTokenCounter");
-    _itemListed =
+    _nftMinted = contract.event('NftMinted');
 
     return contract;
   }
